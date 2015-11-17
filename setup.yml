@@ -4,6 +4,11 @@
   sudo: yes
 
 # TODO: install java
+# TODO: install hadoop
 # TODO: setup bashrc for brycemcd user
-#- include: playbooks/install_spark.yml
+# TODO: setup users
+
+- include: playbooks/hadoop_users.yml
+- include: playbooks/install_spark.yml
 - include: playbooks/install_hive.yml
+- include: playbooks/java8.yml

@@ -3,8 +3,8 @@
   user: brycemcd
   sudo: yes
   tasks:
-    #- name: download spark
-      #command: wget http://d3kbcqa49mib13.cloudfront.net/spark-1.5.2-bin-hadoop2.6.tgz
+    - name: download spark
+      command: wget http://d3kbcqa49mib13.cloudfront.net/spark-1.5.2-bin-hadoop2.6.tgz
 
     - name: untar spark
       command: tar zxvf spark-1.5.2-bin-hadoop2.6.tgz

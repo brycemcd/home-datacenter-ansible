@@ -1,0 +1,11 @@
+---
+- hosts: spark-executor
+  user: brycemcd
+  sudo: yes
+  tasks:
+
+    - name: adds hdgroup
+      group: name=hadoop state=present
+
+    - name: adds hduser
+      user: name=hduser comment="runs all hadoop services"
