@@ -1,0 +1,21 @@
+---
+- hosts: spark-executor
+  user: brycemcd
+  sudo: yes
+  tasks:
+    #- name: download spark
+      #command: wget http://d3kbcqa49mib13.cloudfront.net/spark-1.5.2-bin-hadoop2.6.tgz
+
+    - name: untar spark
+      command: tar zxvf spark-1.5.2-bin-hadoop2.6.tgz
+
+    - name: remove anything that might be there
+      command: rm -rf /usr/local/spark-1.5.2-bin-hadoop2.6
+      ignore_errors: True
+
+    - name: move spark
+      command: creates="local executable of spark" mv spark-1.5.2-bin-hadoop2.6 /usr/local/
+
+    - name: perms!
+      file: path=/usr/local/spark-1.5.2-bin-hadoop2.6 state=directory mode=755 owner=hduser group=hadoop
+      # TODO: figure out how to add this to path

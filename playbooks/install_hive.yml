@@ -1,0 +1,25 @@
+---
+- hosts: spark-executor
+  user: brycemcd
+  sudo: yes
+  tasks:
+    - name: remove existing download if exists
+      command: rm -rf /usr/local/apache-hive-1.2.1-bin.tar.gz
+      ignore_errors: True
+
+    - name: download hive
+      command: wget http://mirrors.sonic.net/apache/hive/hive-1.2.1/apache-hive-1.2.1-bin.tar.gz
+
+    - name: untar hive
+      command: tar zxvf apache-hive-1.2.1-bin.tar.gz
+
+    - name: remove anything that might be there
+      command: rm -rf /usr/local/apache-hive-1.2.1-bin
+      ignore_errors: True
+
+    - name: move spark
+      command: creates="local executable of spark" mv apache-hive-1.2.1-bin /usr/local/
+
+    - name: perms!
+      file: path=/usr/local/apache-hive-1.2.1-bin state=directory mode=755 owner=hduser group=hadoop
+      # TODO: figure out how to add this to path

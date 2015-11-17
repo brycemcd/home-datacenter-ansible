@@ -1,0 +1,9 @@
+---
+- hosts: master
+  user: brycemcd
+  sudo: yes
+
+# TODO: install java
+# TODO: setup bashrc for brycemcd user
+#- include: playbooks/install_spark.yml
+- include: playbooks/install_hive.yml

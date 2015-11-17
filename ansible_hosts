@@ -1,0 +1,10 @@
+[all]
+
+spark1.thedevranch.net
+spark2.thedevranch.net
+
+[master]
+spark2.thedevranch.net
+
+[spark-executor]
+spark2.thedevranch.net
