@@ -1,0 +1,44 @@
+---
+- hosts: spark-executor
+  user: brycemcd
+  sudo: yes
+  tasks:
+    #- name: remove existing download if exists
+      #command: rm -rf /usr/local/hadoop-2.6.2.tar.gz
+      #ignore_errors: True
+
+    #- name: download hadoop
+      #command: wget http://apache.mirrors.lucidnetworks.net/hadoop/common/hadoop-2.6.2/hadoop-2.6.2.tar.gz
+
+    - name: untar hadoop
+      command: tar zxvf hadoop-2.6.2.tar.gz
+
+    - name: remove anything that might be there
+      command: rm -rf /usr/local/hadoop-2.6.2
+      ignore_errors: True
+
+    - name: move spark
+      command: mv hadoop-2.6.2 /usr/local/
+
+    - name: perms!
+      file: path=/usr/local/hadoop-2.6.2 state=directory mode=775 owner=hduser group=hadoop
+
+    - template: src=../templates/hadoop-env.sh dest=/usr/local/hadoop-2.6.2/etc/hadoop/hadoop-env.sh mode=0664 owner=hduser
+    - template: src=../templates/core-site.xml dest=/usr/local/hadoop-2.6.2/etc/hadoop/core-site.xml mode=0664 owner=hduser
+    - template: src=../templates/mapred-site.xml dest=/usr/local/hadoop-2.6.2/etc/hadoop/mapred-site.xml mode=0664 owner=hduser
+
+    - file: path=/usr/local/hadoop_store/hdfs/namenode state=directory mode=0775 owner=hduser group=hadoop
+    - file: path=/usr/local/hadoop_store/hdfs/datanode state=directory mode=0775 owner=hduser group=hadoop
+
+    - template: src=../templates/hdfs-site.xml dest=/usr/local/hadoop-2.6.2/etc/hadoop/hdfs-site.xml mode=0664 owner=hduser
+
+    - name: Format the namenode
+      #FIXME why do we need the whole path when its in the user's env?
+      # NOTE: DELETES DATA!!
+      shell: /usr/local/hadoop-2.6.2//bin/hadoop namenode -format -nonInteractive -force
+      args:
+        executable: /bin/bash
+      sudo: no
+      remote_user: hduser
+
+

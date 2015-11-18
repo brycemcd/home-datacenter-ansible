@@ -1,7 +1,7 @@
 [all]
 
-[master]
-ansible[5:6].thedevranch.net
+[hadoop-master]
+ansible5.thedevranch.net
 
 [spark-executor]
 ansible[5:6].thedevranch.net
