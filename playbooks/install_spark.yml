@@ -1,5 +1,5 @@
 ---
-- hosts: spark-executor
+- hosts: spark-servers
   user: brycemcd
   sudo: yes
   tasks:

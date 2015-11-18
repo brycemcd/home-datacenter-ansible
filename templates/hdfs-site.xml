@@ -27,10 +27,14 @@
   </property>
   <property>
     <name>dfs.namenode.name.dir</name>
-    <value>file:/usr/local/hadoop_store/hdfs/namenode</value>
+    <value>/usr/local/hadoop_store/hdfs/namenode</value>
   </property>
   <property>
     <name>dfs.datanode.data.dir</name>
-    <value>file:/usr/local/hadoop_store/hdfs/datanode</value>
+    <value>/usr/local/hadoop_store/hdfs/datanode</value>
+  </property>
+  <property>
+    <name>dfs.namenode.secondary.http-address</name>
+    <value>localhost:50090</value>
   </property>
 </configuration>

@@ -1,0 +1,28 @@
+---
+# NOTE: Taken from here: https://juriansluiman.nl/article/151/managing-ssh-known-hosts-with-ansible
+- hosts: all
+  user: brycemcd
+  sudo: yes
+  vars:
+    ssh_known_hosts_command: "ssh-keyscan -H -T 10"
+    ssh_known_hosts_file: "/etc/ssh/ssh_known_hosts"
+    ssh_known_hosts:
+      - ansible5.thedevranch.net
+      - ansible6.thedevranch.net
+      - localhost
+      - hdfs-master.thedevranch.net
+
+  tasks:
+    - name: Make sure the known hosts file exists
+      file: "path={{ ssh_known_hosts_file }} state=touch"
+
+    - name: Check host name availability
+      shell: "ssh-keygen -f {{ ssh_known_hosts_file }} -F {{ item }}"
+      with_items: ssh_known_hosts
+      register: ssh_known_host_results
+      ignore_errors: yes
+
+    - name: Scan the public key
+      shell: "{{ ssh_known_hosts_command}} {{ item.item }} >> {{ ssh_known_hosts_file }}"
+      with_items: ssh_known_host_results.results
+      when: item.stdout == ""

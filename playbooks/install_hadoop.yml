@@ -1,14 +1,14 @@
 ---
-- hosts: spark-executor
+- hosts: spark-servers
   user: brycemcd
   sudo: yes
   tasks:
-    #- name: remove existing download if exists
-      #command: rm -rf /usr/local/hadoop-2.6.2.tar.gz
-      #ignore_errors: True
+    - name: remove existing download if exists
+      command: rm -rf /usr/local/hadoop-2.6.2.tar.gz
+      ignore_errors: True
 
-    #- name: download hadoop
-      #command: wget http://apache.mirrors.lucidnetworks.net/hadoop/common/hadoop-2.6.2/hadoop-2.6.2.tar.gz
+    - name: download hadoop
+      command: wget http://apache.mirrors.lucidnetworks.net/hadoop/common/hadoop-2.6.2/hadoop-2.6.2.tar.gz
 
     - name: untar hadoop
       command: tar zxvf hadoop-2.6.2.tar.gz
