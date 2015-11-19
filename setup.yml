@@ -4,6 +4,7 @@
   sudo: yes
 
 # TODO: setup users
+# http://www.gettingcirrius.com/2013/09/register-rsa-public-key-using-ansible.html
 # TODO: add server monitoring
 
 - include: playbooks/system_users.yml

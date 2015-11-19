@@ -6,14 +6,15 @@
   vars:
     ssh_known_hosts_command: "ssh-keyscan -H -T 10"
     ssh_known_hosts_file: "/etc/ssh/ssh_known_hosts"
+
     # TODO grab this from ansible_hosts
     ssh_known_hosts:
-      - ansible10.thedevranch.net
-      - ansible11.thedevranch.net
-      - ansible12.thedevranch.net
-      - ansible10-internal.thedevranch.net
-      - ansible11-internal.thedevranch.net
-      - ansible12-internal.thedevranch.net
+      - ansible1.thedevranch.net
+      - ansible2.thedevranch.net
+      - ansible3.thedevranch.net
+      - ansible1-internal.thedevranch.net
+      - ansible2-internal.thedevranch.net
+      - ansible3-internal.thedevranch.net
       - localhost
       - hdfs-master.thedevranch.net
 
@@ -32,3 +33,23 @@
       shell: "{{ ssh_known_hosts_command}} {{ item.item }} >> {{ ssh_known_hosts_file }}"
       with_items: ssh_known_host_results.results
       when: item.stdout == ""
+
+    - name: write hosts to /etc/hosts
+      lineinfile: dest=/etc/hosts line="{{item.ip}} {{item.host}}" insertafter=EOF
+      with_items:
+        - { host: "ansible1", ip: "10.128.185.169" }
+        - { host: "hdfs-master", ip: "10.128.185.169" }
+        - { host: "ansible2", ip: "10.128.189.197" }
+        - { host: "ansible3", ip: "10.128.190.204" }
+
+    # FIXME: Keys in a repo? This is bad
+    - name: ensure hduser pub key is in authorized_keys
+      authorized_key: user=hduser key="{{item}}" state=present
+      with_file:
+        - ../templates/hd_user_keys/id_rsa.pub
+
+    - name: add hd_user public key to boxes
+      copy: src=../templates/hd_user_keys/{{item}} dest=/home/hduser/.ssh/{{item}} mode=0600
+      with_items:
+        - id_rsa
+        - id_rsa.pub

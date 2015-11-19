@@ -3,12 +3,13 @@
   user: brycemcd
   sudo: yes
   tasks:
-    #- name: remove existing download if exists
-      #command: rm -rf /usr/local/hadoop-2.6.2.tar.gz
-      #ignore_errors: True
+    # FIXME: need to add all hosts to /etc/hosts
+    - name: remove existing download if exists
+      command: rm -rf /usr/local/hadoop-2.6.2.tar.gz
+      ignore_errors: True
 
-    #- name: download hadoop
-      #command: wget http://apache.mirrors.lucidnetworks.net/hadoop/common/hadoop-2.6.2/hadoop-2.6.2.tar.gz
+    - name: download hadoop
+      command: wget http://apache.mirrors.lucidnetworks.net/hadoop/common/hadoop-2.6.2/hadoop-2.6.2.tar.gz
 
     - name: untar hadoop
       command: tar zxvf hadoop-2.6.2.tar.gz
@@ -28,6 +29,9 @@
     - template: src=../templates/mapred-site.xml dest=/usr/local/hadoop-2.6.2/etc/hadoop/mapred-site.xml mode=0664 owner=hduser
     - template: src=../templates/yarn-site.xml dest=/usr/local/hadoop-2.6.2/etc/hadoop/yarn-site.xml mode=0664 owner=hduser
 
+    - name: Really important! remove any existing directories
+      command: rm -rf /usr/local/hadoop_store
+
     - file: path=/usr/local/hadoop_store/hdfs/namenode state=directory mode=0775 owner=hduser group=hadoop
     - file: path=/usr/local/hadoop_store/hdfs/datanode state=directory mode=0775 owner=hduser group=hadoop
 
@@ -40,7 +44,7 @@
       template: src=../templates/etc_hadoop_slaves dest=/usr/local/hadoop-2.6.2/etc/hadoop/slaves mode=0664 owner=hduser
 
     - name: Format the namenode
-      #FIXME why do we need the whole path when its in the user's env?
+      # FIXME why do we need the whole path when its in the user's env?
       # NOTE: DELETES DATA!!
       shell: /usr/local/hadoop-2.6.2//bin/hadoop namenode -format -nonInteractive -force
       args:
