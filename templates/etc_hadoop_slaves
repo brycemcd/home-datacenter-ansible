@@ -1,0 +1,4 @@
+# TODO pull this in from the hosts file
+ansible10-internal.thedevranch.net
+ansible11-internal.thedevranch.net
+ansible12-internal.thedevranch.net

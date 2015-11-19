@@ -1,10 +1,14 @@
 [all]
 
 [hadoop-boxes]
-ansible[5:6].thedevranch.net
+ansible[10:12].thedevranch.net
 
 [hadoop-master]
-ansible5.thedevranch.net
+ansible10.thedevranch.net
+
+[hadoop-slaves]
+ansible11.thedevranch.net
+ansible12.thedevranch.net
 
 [spark-executor]
 ansible5.thedevranch.net

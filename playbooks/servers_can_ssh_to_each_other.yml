@@ -1,17 +1,23 @@
 ---
 # NOTE: Taken from here: https://juriansluiman.nl/article/151/managing-ssh-known-hosts-with-ansible
-- hosts: all
+- hosts: hadoop-boxes
   user: brycemcd
   sudo: yes
   vars:
     ssh_known_hosts_command: "ssh-keyscan -H -T 10"
     ssh_known_hosts_file: "/etc/ssh/ssh_known_hosts"
+    # TODO grab this from ansible_hosts
     ssh_known_hosts:
-      - ansible5.thedevranch.net
-      - ansible6.thedevranch.net
+      - ansible10.thedevranch.net
+      - ansible11.thedevranch.net
+      - ansible12.thedevranch.net
+      - ansible10-internal.thedevranch.net
+      - ansible11-internal.thedevranch.net
+      - ansible12-internal.thedevranch.net
       - localhost
       - hdfs-master.thedevranch.net
 
+  # TODO: make sure master can login to slaves and vice versa
   tasks:
     - name: Make sure the known hosts file exists
       file: "path={{ ssh_known_hosts_file }} state=touch"
