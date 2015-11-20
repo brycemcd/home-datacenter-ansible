@@ -4,6 +4,7 @@
   sudo: yes
   vars:
     spark_env_filename: spark_environment_params
+    local_spark_template_path: ../../templates/spark
   tasks:
     - name: remove existing download if exists
       command: rm -rf spark-1.5.2-bin-hadoop2.6.tgz
@@ -30,9 +31,10 @@
   sudo: no
   vars:
     spark_env_filename: spark_environment_params
+    local_spark_template_path: ../../templates/spark
   tasks:
     - name: add env params file for spark
-      template: src=../templates/{{spark_env_filename}} dest=~/.{{spark_env_filename}} mode=755
+      template: src={{local_spark_template_path}}/{{spark_env_filename}} dest=~/.{{spark_env_filename}} mode=755
 
     - name: add env params file to bashrc
       lineinfile: dest="~/.bashrc" line="source ~/.{{spark_env_filename}}" state=present
@@ -46,6 +48,7 @@
   user: brycemcd
   sudo: yes
   vars:
+    local_spark_template_path: ../../templates/spark
     # TODO move this to host vars and iterate over it
     spark_slave_internal_hosts:
       - ansible1-internal.thedevranch.net
@@ -53,7 +56,7 @@
       - ansible3-internal.thedevranch.net
   tasks:
     - name: create spark env file to make sure correct IP is bound
-      template: src=../templates/conf_spark_env dest={{spark_install_path}}/conf/spark-env.sh mode=755
+      template: src={{local_spark_template_path}}/conf_spark_env dest={{spark_install_path}}/conf/spark-env.sh mode=755
 
     - name: install spark slaves file
       file: path={{spark_install_path}}/conf/slaves state=touch mode=755 owner=hduser group=hadoop
@@ -62,3 +65,5 @@
       lineinfile: dest={{spark_install_path}}/conf/slaves line={{item}} state=present
       with_items:
         - "{{spark_slave_internal_hosts}}"
+
+- include: start_spark_services.yml
