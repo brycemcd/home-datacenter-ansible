@@ -1,8 +1,14 @@
 ---
-- hosts: spark-servers
+- hosts: spark-boxes
   user: brycemcd
   sudo: yes
+  vars:
+    spark_env_filename: spark_environment_params
   tasks:
+    - name: remove existing download if exists
+      command: rm -rf spark-1.5.2-bin-hadoop2.6.tgz
+      ignore_errors: True
+
     - name: download spark
       command: wget http://d3kbcqa49mib13.cloudfront.net/spark-1.5.2-bin-hadoop2.6.tgz
 
@@ -10,12 +16,49 @@
       command: tar zxvf spark-1.5.2-bin-hadoop2.6.tgz
 
     - name: remove anything that might be there
-      command: rm -rf /usr/local/spark-1.5.2-bin-hadoop2.6
+      command: rm -rf {{spark_install_path}}
       ignore_errors: True
 
     - name: move spark
       command: creates="local executable of spark" mv spark-1.5.2-bin-hadoop2.6 /usr/local/
 
     - name: perms!
-      file: path=/usr/local/spark-1.5.2-bin-hadoop2.6 state=directory mode=755 owner=hduser group=hadoop
-      # TODO: figure out how to add this to path
+      file: path={{spark_install_path}} state=directory mode=755 owner=hduser group=hadoop
+
+- hosts: spark-boxes
+  user: hduser
+  sudo: no
+  vars:
+    spark_env_filename: spark_environment_params
+  tasks:
+    - name: add env params file for spark
+      template: src=../templates/{{spark_env_filename}} dest=~/.{{spark_env_filename}} mode=755
+
+    - name: add env params file to bashrc
+      lineinfile: dest="~/.bashrc" line="source ~/.{{spark_env_filename}}" state=present
+
+    - name: make sure new params take effect
+      shell: source ~/.bashrc
+      args:
+        executable: /bin/bash
+
+- hosts: spark-executor
+  user: brycemcd
+  sudo: yes
+  vars:
+    # TODO move this to host vars and iterate over it
+    spark_slave_internal_hosts:
+      - ansible1-internal.thedevranch.net
+      - ansible2-internal.thedevranch.net
+      - ansible3-internal.thedevranch.net
+  tasks:
+    - name: create spark env file to make sure correct IP is bound
+      template: src=../templates/conf_spark_env dest={{spark_install_path}}/conf/spark-env.sh mode=755
+
+    - name: install spark slaves file
+      file: path={{spark_install_path}}/conf/slaves state=touch mode=755 owner=hduser group=hadoop
+
+    - name: add hosts to file
+      lineinfile: dest={{spark_install_path}}/conf/slaves line={{item}} state=present
+      with_items:
+        - "{{spark_slave_internal_hosts}}"

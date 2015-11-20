@@ -1,0 +1,7 @@
+export SPARK_MASTER_IP={{spark_master_ip}}
+
+export SPARK_HOME={{spark_install_path}}
+
+# Overload PATH
+export PATH=$PATH:$SPARK_HOME/bin
+export PATH=$PATH:$SPARK_HOME/sbin

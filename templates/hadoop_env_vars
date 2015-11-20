@@ -12,11 +12,10 @@ export HIVE_HOME=/usr/local/apache-hive-1.2.1-bin
 
 export JAVA_HOME=/usr/lib/jvm/java-8-oracle
 
-export SPARK_HOME=/usr/local/spark-1.5.2-bin-hadoop2.6
 
 export YARN_HOME=$HADOOP_INSTALL
 
 
 # Overload PATH
-export PATH=$PATH:$HADOOP_INSTALL/bin:$HIVE_HOME/bin:$SPARK_HOME/bin
-export PATH=$PATH:$HADOOP_INSTALL/sbin:$HIVE_HOME/sbin:$SPARK_HOME/sbin
+export PATH=$PATH:$HADOOP_INSTALL/bin:$HIVE_HOME/bin
+export PATH=$PATH:$HADOOP_INSTALL/sbin:$HIVE_HOME/sbin

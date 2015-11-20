@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: hive
   user: brycemcd
   sudo: yes
   tasks:
@@ -17,7 +17,7 @@
       command: rm -rf /usr/local/apache-hive-1.2.1-bin
       ignore_errors: True
 
-    - name: move spark
+    - name: move hive
       command: creates="local executable of spark" mv apache-hive-1.2.1-bin /usr/local/
 
     - name: perms!

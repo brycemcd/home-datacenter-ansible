@@ -1,0 +1,10 @@
+---
+- hosts: spark-executor
+  user: hduser
+  sudo: no
+  tasks:
+
+    - name: start master
+      shell: "{{spark_install_path}}/sbin/start-all.sh"
+      args:
+        executable: /bin/bash

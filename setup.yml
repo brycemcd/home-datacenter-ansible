@@ -13,6 +13,6 @@
 
 - include: playbooks/java8.yml
 - include: playbooks/install_hadoop.yml
-#- include: playbooks/install_spark.yml
+- include: playbooks/start_hadoop_services.yml
+- include: playbooks/install_spark.yml
 #- include: playbooks/install_hive.yml
-#- include: playbooks/start_hadoop_services.yml

@@ -1,0 +1,10 @@
+---
+- hosts: spark-executor
+  user: hduser
+  sudo: no
+  tasks:
+
+    - name: stop slaves
+      shell: "{{spark_install_path}}/sbin/stop-all.sh"
+      args:
+        executable: /bin/bash
