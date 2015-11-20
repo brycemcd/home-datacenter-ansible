@@ -2,20 +2,26 @@
 - hosts: hadoop-boxes
   user: brycemcd
   sudo: yes
+  vars:
+    local_hadoop_template_path: ../../templates/hadoop
+    hadoop_install_path: /usr/local/hadoop-2.6.2
+    hadoop_slave_internal_hosts:
+      - {hostname: ansible1-internal.thedevranch.net, ip: 10.128.17.181}
+      - {hostname: ansible2-internal.thedevranch.net, ip: 10.128.160.252}
+      - {hostname: ansible3-internal.thedevranch.net, ip: 10.128.18.188}
   tasks:
-    # FIXME: need to add all hosts to /etc/hosts
-    - name: remove existing download if exists
-      command: rm -rf /usr/local/hadoop-2.6.2.tar.gz
-      ignore_errors: True
+    #- name: remove existing download if exists
+      #command: rm -rf /usr/local/hadoop-2.6.2.tar.gz
+      #ignore_errors: True
 
-    - name: download hadoop
-      command: wget http://apache.mirrors.lucidnetworks.net/hadoop/common/hadoop-2.6.2/hadoop-2.6.2.tar.gz
+    #- name: download hadoop
+      #command: wget http://apache.mirrors.lucidnetworks.net/hadoop/common/hadoop-2.6.2/hadoop-2.6.2.tar.gz
 
     - name: untar hadoop
       command: tar zxvf hadoop-2.6.2.tar.gz
 
     - name: remove anything that might be there
-      command: rm -rf /usr/local/hadoop-2.6.2
+      command: rm -rf {{hadoop_install_path}}
       ignore_errors: True
 
     - name: move spark
@@ -24,10 +30,22 @@
     - name: perms!
       file: path=/usr/local/hadoop-2.6.2 state=directory mode=775 owner=hduser group=hadoop
 
-    - template: src=../templates/hadoop-env.sh dest=/usr/local/hadoop-2.6.2/etc/hadoop/hadoop-env.sh mode=0664 owner=hduser
-    - template: src=../templates/core-site.xml dest=/usr/local/hadoop-2.6.2/etc/hadoop/core-site.xml mode=0664 owner=hduser
-    - template: src=../templates/mapred-site.xml dest=/usr/local/hadoop-2.6.2/etc/hadoop/mapred-site.xml mode=0664 owner=hduser
-    - template: src=../templates/yarn-site.xml dest=/usr/local/hadoop-2.6.2/etc/hadoop/yarn-site.xml mode=0664 owner=hduser
+    - template: src={{local_hadoop_template_path}}/hadoop-env.sh
+        dest={{hadoop_install_path}}/etc/hadoop/hadoop-env.sh
+        mode=0664
+        owner=hduser
+    - template: src={{local_hadoop_template_path}}/core-site.xml
+        dest={{hadoop_install_path}}/etc/hadoop/core-site.xml
+        mode=0664
+        owner=hduser
+    - template: src={{local_hadoop_template_path}}/mapred-site.xml
+        dest={{hadoop_install_path}}/etc/hadoop/mapred-site.xml
+        mode=0664
+        owner=hduser
+    - template: src={{local_hadoop_template_path}}/yarn-site.xml
+        dest={{hadoop_install_path}}/etc/hadoop/yarn-site.xml
+        mode=0664
+        owner=hduser
 
     - name: Really important! remove any existing directories
       command: rm -rf /usr/local/hadoop_store
@@ -35,18 +53,34 @@
     - file: path=/usr/local/hadoop_store/hdfs/namenode state=directory mode=0775 owner=hduser group=hadoop
     - file: path=/usr/local/hadoop_store/hdfs/datanode state=directory mode=0775 owner=hduser group=hadoop
 
-    - template: src=../templates/hdfs-site.xml dest=/usr/local/hadoop-2.6.2/etc/hadoop/hdfs-site.xml mode=0664 owner=hduser
+    - template: src={{local_hadoop_template_path}}/hdfs-site.xml
+        dest={{hadoop_install_path}}/etc/hadoop/hdfs-site.xml
+        mode=0664
+        owner=hduser
 
     - name: create hadoop masters
-      template: src=../templates/etc_hadoop_master dest=/usr/local/hadoop-2.6.2/etc/hadoop/masters mode=0664 owner=hduser
+      template: src={{local_hadoop_template_path}}/etc_hadoop_master
+        dest={{hadoop_install_path}}/etc/hadoop/masters
+        mode=0664
+        owner=hduser
 
-    - name: create hadoop slaves
-      template: src=../templates/etc_hadoop_slaves dest=/usr/local/hadoop-2.6.2/etc/hadoop/slaves mode=0664 owner=hduser
+    - name: install hadoop slaves file
+      file: path={{hadoop_install_path}}/etc/hadoop/slaves state=touch mode=755 owner=hduser group=hadoop
+
+    - name: add hosts to file
+      lineinfile: dest={{hadoop_install_path}}/etc/hadoop/slaves line={{item.hostname}} state=present
+      with_items:
+        - "{{hadoop_slave_internal_hosts}}"
+
+    - name: add hosts to etc hosts <-- causes many bugs if not!
+      lineinfile: dest=/etc/hosts line="{{item.ip}} {{item.hostname}}" state=present
+      with_items:
+        - "{{hadoop_slave_internal_hosts}}"
+        - {hostname: hdfs-master.thedevranch.net, ip: 10.128.17.181}
 
     - name: Format the namenode
-      # FIXME why do we need the whole path when its in the user's env?
       # NOTE: DELETES DATA!!
-      shell: /usr/local/hadoop-2.6.2//bin/hadoop namenode -format -nonInteractive -force
+      shell: "{{hadoop_install_path}}/bin/hadoop namenode -format -nonInteractive -force"
       args:
         executable: /bin/bash
       sudo: no

@@ -2,6 +2,8 @@
 - hosts: hadoop-boxes
   user: brycemcd
   sudo: yes
+  vars:
+    local_hadoop_template_path: ../../templates/hadoop
   tasks:
 
     - name: adds hdgroup
@@ -11,12 +13,12 @@
       user: name=hduser comment="runs all hadoop services" generate_ssh_key=yes
 
     - name: copy hadoop env_vars into bash.rc include
-      template: src=../templates/hadoop_env_vars dest=/home/hduser/.hadoop_env_vars mode=0644 owner=hduser
+      template: src={{local_hadoop_template_path}}/hadoop_env_vars dest=/home/hduser/.hadoop_env_vars mode=0644 owner=hduser
 
     - file: path=/home/hduser/.ssh state=directory mode=0755 owner=hduser group=hadoop
 
     - name: copy authorized_keys
-      template: src=../templates/system_admins_public_keys dest=/home/hduser/.ssh/authorized_keys mode=0600 owner=hduser group=hduser
+      template: src={{local_hadoop_template_path}}/system_admins_public_keys dest=/home/hduser/.ssh/authorized_keys mode=0600 owner=hduser group=hduser
 
     - name: add in self authorized_keys
       shell: cat /home/hduser/.ssh/id_rsa.pub >> /home/hduser/.ssh/authorized_keys
