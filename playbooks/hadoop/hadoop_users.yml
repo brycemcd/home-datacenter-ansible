@@ -18,7 +18,7 @@
     - file: path=/home/hduser/.ssh state=directory mode=0755 owner=hduser group=hadoop
 
     - name: copy authorized_keys
-      template: src={{local_hadoop_template_path}}/system_admins_public_keys dest=/home/hduser/.ssh/authorized_keys mode=0600 owner=hduser group=hduser
+      template: src={{local_hadoop_template_path}}/../system_admins_public_keys dest=/home/hduser/.ssh/authorized_keys mode=0600 owner=hduser group=hduser
 
     - name: add in self authorized_keys
       shell: cat /home/hduser/.ssh/id_rsa.pub >> /home/hduser/.ssh/authorized_keys

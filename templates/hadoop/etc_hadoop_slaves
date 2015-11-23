@@ -1,4 +1,3 @@
 # TODO pull this in from the hosts file
-ansible1-internal.thedevranch.net
-ansible2-internal.thedevranch.net
-ansible3-internal.thedevranch.net
+spark1.thedevranch.net
+spark2.thedevranch.net

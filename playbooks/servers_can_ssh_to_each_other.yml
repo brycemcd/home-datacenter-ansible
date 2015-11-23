@@ -9,12 +9,9 @@
 
     # TODO grab this from ansible_hosts
     ssh_known_hosts:
-      - ansible1.thedevranch.net
-      - ansible2.thedevranch.net
-      - ansible3.thedevranch.net
-      - ansible1-internal.thedevranch.net
-      - ansible2-internal.thedevranch.net
-      - ansible3-internal.thedevranch.net
+      - spark1.thedevranch.net
+      - spark2.thedevranch.net
+      - spark3.thedevranch.net
       - localhost
       - hdfs-master.thedevranch.net
 

@@ -8,12 +8,12 @@
 # TODO: add server monitoring
 
 - include: playbooks/system_users.yml
-- include: playbooks/hadoop_users.yml
+- include: playbooks/haddop/hadoop_users.yml
 - include: playbooks/servers_can_ssh_to_each_other.yml
 
 - include: playbooks/java8.yml
-- include: playbooks/install_hadoop.yml
-- include: playbooks/start_hadoop_services.yml
+- include: playbooks/hadoop/install_hadoop.yml
+- include: playbooks/hadoop/start_hadoop_services.yml
 
-- include: playbooks/install_spark.yml
+- include: playbooks/spark/install_spark.yml
 #- include: playbooks/install_hive.yml

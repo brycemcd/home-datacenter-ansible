@@ -1,5 +1,5 @@
 ---
-- hosts: hive
+- hosts: hive-boxes
   user: brycemcd
   sudo: yes
   tasks:

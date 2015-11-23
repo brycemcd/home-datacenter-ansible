@@ -5,7 +5,7 @@
   tasks:
 
     - name: copy hadoop env_vars into bash.rc include
-      template: src=../templates/hadoop_env_vars dest=/home/brycemcd/.hadoop_env_vars mode=0644 owner=brycemcd
+      template: src=../templates/hadoop/hadoop_env_vars dest=/home/brycemcd/.hadoop_env_vars mode=0644 owner=brycemcd
 
     # TODO ZSH!!!
     - name: update .bashrc
