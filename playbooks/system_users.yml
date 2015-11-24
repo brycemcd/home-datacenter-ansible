@@ -18,3 +18,24 @@
       shell: source /home/brycemcd/.bashrc
       args:
         executable: /bin/bash
+
+- hosts: hadoop-boxes
+  user: hduser
+  sudo: no
+  tasks:
+
+    - name: copy hadoop env_vars into bash.rc include
+      template: src=../templates/hadoop/hadoop_env_vars dest=/home/hduser/.hadoop_env_vars mode=0644 owner=hduser
+
+    # TODO ZSH!!!
+    - name: update .bashrc
+      shell: echo "source ~/.hadoop_env_vars" >> /home/hduser/.bashrc
+      args:
+        executable: /bin/bash
+
+    - name: source new .bashrc
+      sudo: no
+      shell: source /home/hduser/.bashrc
+      args:
+        executable: /bin/bash
+

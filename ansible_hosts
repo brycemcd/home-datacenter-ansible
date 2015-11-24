@@ -1,34 +1,35 @@
 [all]
 
 [hive-boxes]
-spark[1:3].thedevranch.net
+localhost
 
 [hadoop-boxes]
-spark[1:3].thedevranch.net
+10.10.1.20
 
 [hadoop-master]
-spark3.thedevranch.net
+10.10.1.20
 
 [hadoop-slaves]
-spark[2:3].thedevranch.net
+10.10.1.20
+
+[hadoop-boxes:vars]
+hadoop_install_path=/usr/local/hadoop-2.6.2
 
 [spark-executor]
-spark3.thedevranch.net
+localhost
 
 [spark-workers]
 spark[1:3].thedevranch.net
+localhost
 
 [spark-boxes:children]
 spark-executor
 spark-workers
 
 [spark-boxes:vars]
-spark_master_ip=10.1.2.244
+spark_master_ip=10.10.1.20
 spark_install_path=/usr/local/spark-1.5.2-bin-hadoop2.6
 
 [ssh-special-cases]
 localhost
 hdfs-master.thedevranch.net
-
-[hive]
-ansible1.thedevranch.net

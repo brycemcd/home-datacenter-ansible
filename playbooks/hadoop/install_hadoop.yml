@@ -4,19 +4,17 @@
   sudo: yes
   vars:
     local_hadoop_template_path: ../../templates/hadoop
-    hadoop_install_path: /usr/local/hadoop-2.6.2
     hadoop_slave_internal_hosts:
-      - {hostname: spark1.thedevranch.net, ip: 10.1.2.235}
-      - {hostname: spark2.thedevranch.net, ip: 10.1.2.234}
+      - {hostname: hdfs-slave1, ip: 10.10.1.20}
     hadoop_master_host:
-      - {hostname: hdfs-master.thedevranch.net, ip: 10.1.2.244}
+      - {hostname: hdfs-master, ip: 10.10.1.20}
   tasks:
     #- name: remove existing download if exists
-    #  command: rm -rf /usr/local/hadoop-2.6.2.tar.gz
-    #  ignore_errors: True
+      #command: rm -rf /usr/local/hadoop-2.6.2.tar.gz
+      #ignore_errors: True
 
     #- name: download hadoop
-    #  command: wget http://apache.mirrors.lucidnetworks.net/hadoop/common/hadoop-2.6.2/hadoop-2.6.2.tar.gz
+      #command: wget http://apache.mirrors.lucidnetworks.net/hadoop/common/hadoop-2.6.2/hadoop-2.6.2.tar.gz
 
     - name: remove anything that might be there
       command: rm -rf hadoop-2.6.2
