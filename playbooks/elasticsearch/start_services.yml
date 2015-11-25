@@ -1,0 +1,11 @@
+---
+- hosts: elastic-boxes
+  user: brycemcd
+  sudo: yes
+  tasks:
+
+    - name: start master
+      #shell: "{{es_install_path}}/bin/elasticsearch"
+      #args:
+        #executable: /bin/bash
+      command: /etc/init.d/elasticsearch start

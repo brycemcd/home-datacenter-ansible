@@ -1,0 +1,8 @@
+---
+- hosts: elastic-boxes
+  user: brycemcd
+  sudo: yes
+  tasks:
+
+    - name: stop master
+      command: /etc/init.d/elasticsearch stop

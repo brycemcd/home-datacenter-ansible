@@ -1,0 +1,36 @@
+---
+- hosts: elastic-boxes
+  user: brycemcd
+  sudo: yes
+  vars:
+    local_elasticsearch_template_path: ../../templates/elasticsearch
+  tasks:
+
+    # NOTE: not all distros come with unzip installed by default
+
+    - command: rm elasticsearch-hadoop-2.1.2.zip
+      ignore_errors: True
+
+    - command: rm -rf elasticsearch-hadoop-2.1.2
+      ignore_errors: True
+
+    - name: download zip of hadoop jars
+      command: wget http://download.elastic.co/hadoop/elasticsearch-hadoop-2.1.2.zip
+
+    - file: path={{hive_install_path}}/aux_jars state=directory mode=0755 owner=hduser group=hadoop
+
+    - apt: state=latest name=unzip
+
+    - command: unzip elasticsearch-hadoop-2.1.2.zip
+
+    - file: dest={{hive_install_path}}/conf/hive-env.sh state=touch owner=hduser group=hadoop mode=0755
+    - lineinfile: dest={{hive_install_path}}/conf/hive-env.sh line="export HIVE_AUX_JARS_PATH={{hive_aux_path}}"
+
+- hosts: elastic-onebox
+  user: hduser
+  sudo: no
+  tasks:
+    # FIXME: Y U NO inherit path?
+    - shell: /usr/local/hadoop-2.6.2/bin/hdfs dfs -copyFromLocal -f /home/brycemcd/elasticsearch-hadoop-2.1.2/dist/elasticsearch-hadoop-*.jar {{hive_aux_path}}
+      args:
+        executable: /bin/bash

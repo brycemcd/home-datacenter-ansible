@@ -1,0 +1,38 @@
+---
+- hosts: elastic-boxes
+  user: brycemcd
+  sudo: yes
+  vars:
+    #elasticsearch_env_filename: spark_environment_params
+    local_elasticsearch_template_path: ../../templates/elasticsearch
+  tasks:
+    - name: remove existing download if exists
+      command: rm -rf elasticsearch-1.7.3.tar.gz
+      ignore_errors: True
+
+    - command: rm -rf elasticsearch-1.7.3
+      ignore_errors: True
+
+    - name: download es
+      command: wget https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-1.7.3.tar.gz
+
+    - name: untar es
+      command: tar zxvf elasticsearch-1.7.3.tar.gz
+
+    - name: remove anything that might be there
+      command: rm -rf {{es_install_path}}
+      ignore_errors: True
+
+    - command: rm -rf {{es_install_path}}.tar.gz
+
+    - name: move es
+      command: mv elasticsearch-1.7.3 /usr/local/
+
+    #- name: perms!
+      #file: path={{es_install_path}} state=directory mode=0755 owner=hduser group=hadoop recurse=yes
+    - name: move config template to conf dir
+      template: src={{local_elasticsearch_template_path}}/elasticsearch.yml
+         dest={{es_install_path}}/config mode=0755
+
+    - name: create data path
+      file: path={{es_data_path}} state=directory mode=0755 owner=hduser group=hadoop

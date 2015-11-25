@@ -4,10 +4,11 @@
   sudo: yes
   vars:
     local_hadoop_template_path: ../../templates/hadoop
+    hadoop_install_path: /usr/local/hadoop-2.6.2
     hadoop_slave_internal_hosts:
-      - {hostname: hdfs-slave1, ip: 10.10.1.20}
-    hadoop_master_host:
-      - {hostname: hdfs-master, ip: 10.10.1.20}
+      - {hostname: ansible1-internal.thedevranch.net, ip: 10.128.17.181}
+      - {hostname: ansible2-internal.thedevranch.net, ip: 10.128.160.252}
+      - {hostname: ansible3-internal.thedevranch.net, ip: 10.128.18.188}
   tasks:
     #- name: remove existing download if exists
       #command: rm -rf /usr/local/hadoop-2.6.2.tar.gz
@@ -15,10 +16,6 @@
 
     #- name: download hadoop
       #command: wget http://apache.mirrors.lucidnetworks.net/hadoop/common/hadoop-2.6.2/hadoop-2.6.2.tar.gz
-
-    - name: remove anything that might be there
-      command: rm -rf hadoop-2.6.2
-      ignore_errors: True
 
     - name: untar hadoop
       command: tar zxvf hadoop-2.6.2.tar.gz
@@ -78,7 +75,8 @@
     - name: add hosts to etc hosts <-- causes many bugs if not!
       lineinfile: dest=/etc/hosts line="{{item.ip}} {{item.hostname}}" state=present
       with_items:
-        - "{{hadoop_master_host}}"
+        - "{{hadoop_slave_internal_hosts}}"
+        - {hostname: hdfs-master.thedevranch.net, ip: 10.128.17.181}
 
     - name: Format the namenode
       # NOTE: DELETES DATA!!
