@@ -1,17 +1,23 @@
 ---
-- hosts: hadoop-boxes
+#- hosts: hadoop-boxes
+- hosts: new-hadoop-boxes
   user: brycemcd
   sudo: yes
   vars:
     local_hadoop_template_path: ../../templates/hadoop
     hadoop_install_path: /usr/local/hadoop-2.6.2
     hadoop_slave_internal_hosts:
-      - {hostname: ansible1-internal.thedevranch.net, ip: 10.128.17.181}
-      - {hostname: ansible2-internal.thedevranch.net, ip: 10.128.160.252}
-      - {hostname: ansible3-internal.thedevranch.net, ip: 10.128.18.188}
+      - {hostname: spark1.thedevranch.net, ip: 10.1.2.235}
+      - {hostname: spark2.thedevranch.net, ip: 10.1.2.234}
+      - {hostname: spark3.thedevranch.net, ip: 10.1.2.244}
+      - {hostname: spark4.thedevranch.net, ip: 10.1.2.247}
   tasks:
     #- name: remove existing download if exists
-      #command: rm -rf /usr/local/hadoop-2.6.2.tar.gz
+      #shell: rm -rf hadoop-2.6.2.tar.gz*
+      ##ignore_errors: True
+
+    #- name: remove any untarred but unmoved versions too
+      #command: rm -rf hadoop-2.6.2
       #ignore_errors: True
 
     #- name: download hadoop
@@ -76,7 +82,7 @@
       lineinfile: dest=/etc/hosts line="{{item.ip}} {{item.hostname}}" state=present
       with_items:
         - "{{hadoop_slave_internal_hosts}}"
-        - {hostname: hdfs-master.thedevranch.net, ip: 10.128.17.181}
+        - {hostname: hdfs-master.thedevranch.net, ip: 10.1.2.244}
 
     - name: Format the namenode
       # NOTE: DELETES DATA!!

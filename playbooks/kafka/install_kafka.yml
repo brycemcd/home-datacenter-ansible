@@ -1,0 +1,33 @@
+---
+- hosts: kafka-boxes
+  user: brycemcd
+  sudo: yes
+  vars:
+    kafka_version: 0.8.2.2
+  tasks:
+    # TODO extract this to its own playbook and include it here
+    #- name: install zookeeper depenency
+      ##apt: name=zookeeper install_recommends=yes force=yes state=latest
+      #apt: name=zookeeperd install_recommends=yes
+
+    - command: rm kafka_2.11-{{kafka_version}}.tgz
+      ignore_errors: True
+
+    - name: download kafka
+      command: wget "http://mirror.cc.columbia.edu/pub/software/apache/kafka/{{kafka_version}}/kafka_2.11-{{kafka_version}}.tgz"
+
+    - command: rm -rf kafka_2.11-{{kafka_version}}
+      ignore_errors: True
+
+    - command: tar zxvf kafka_2.11-{{kafka_version}}.tgz
+
+    - command: rm -rf /usr/local/kafka_2.11-{{kafka_version}}
+      ignore_errors: True
+
+    - command: mv kafka_2.11-{{kafka_version}} /usr/local/
+
+    - file: dest={{install_path}}/logs state=directory mode=0755 owner=hduser group=hadoop
+        recurse=yes
+
+    - template: dest={{install_path}}/config/server.properties src=server.properties
+        mode=0755

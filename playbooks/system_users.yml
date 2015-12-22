@@ -3,6 +3,7 @@
   user: brycemcd
   sudo: yes
   tasks:
+      # TODO - create the friggen hduser!
 
     - name: copy hadoop env_vars into bash.rc include
       template: src=../templates/hadoop/hadoop_env_vars dest=/home/brycemcd/.hadoop_env_vars mode=0644 owner=brycemcd

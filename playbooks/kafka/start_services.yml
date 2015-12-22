@@ -1,0 +1,15 @@
+---
+- hosts: zookeeper
+  user: brycemcd
+  sudo: yes
+  tasks:
+    - name: make sure dependent zookeeper is running
+      service: name=zookeeper state=started
+
+
+- hosts: kafka-boxes
+  user: hduser
+  sudo: no
+  tasks:
+    - name: start it up
+      command: nohup {{install_path}}/bin/kafka-server-start.sh {{install_path}}/config/server.properties
