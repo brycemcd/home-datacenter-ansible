@@ -3,31 +3,31 @@
   user: brycemcd
   sudo: yes
   vars:
-    kafka_version: 0.8.2.2
+    confluent_version: 2.0.0-2.11.7
+    package_name: confluent-2.0.0-2.11.7
+    abbrev_package_name: confluent-2.0.0
+    install_path: /usr/local/{{abbrev_package_name}}
+    template_path: ../../templates/kafka
   tasks:
-    # TODO extract this to its own playbook and include it here
-    #- name: install zookeeper depenency
-      ##apt: name=zookeeper install_recommends=yes force=yes state=latest
-      #apt: name=zookeeperd install_recommends=yes
 
-    - command: rm kafka_2.11-{{kafka_version}}.tgz
+#    - command: rm {{package_name}}.tar.gz
+#      ignore_errors: True
+
+#    - name: download kafka
+#      command: wget http://packages.confluent.io/archive/2.0/{{package_name}}.tar.gz
+
+    - command: rm -rf {{package_name}}
       ignore_errors: True
 
-    - name: download kafka
-      command: wget "http://mirror.cc.columbia.edu/pub/software/apache/kafka/{{kafka_version}}/kafka_2.11-{{kafka_version}}.tgz"
+    - command: tar zxvf {{package_name}}.tar.gz
 
-    - command: rm -rf kafka_2.11-{{kafka_version}}
+    - command: rm -rf {{install_path}}
       ignore_errors: True
 
-    - command: tar zxvf kafka_2.11-{{kafka_version}}.tgz
-
-    - command: rm -rf /usr/local/kafka_2.11-{{kafka_version}}
-      ignore_errors: True
-
-    - command: mv kafka_2.11-{{kafka_version}} /usr/local/
+    - command: mv {{abbrev_package_name}} /usr/local/
 
     - file: dest={{install_path}}/logs state=directory mode=0755 owner=hduser group=hadoop
         recurse=yes
 
-    - template: dest={{install_path}}/config/server.properties src=server.properties
+    - template: dest={{install_path}}/etc/kafka.properties src={{template_path}}/server.properties
         mode=0755

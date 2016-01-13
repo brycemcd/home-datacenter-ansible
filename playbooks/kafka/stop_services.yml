@@ -8,7 +8,7 @@
     install_path: /usr/local/{{abbrev_package_name}}
     template_path: ../../templates/kafka
   tasks:
-    - shell: "{{install_path}}/bin/kafka-server-start -daemon {{install_path}}/etc/kafka.properties"
+    - shell: "{{install_path}}/bin/kafka-server-stop"
       args:
         executable: /bin/bash
 

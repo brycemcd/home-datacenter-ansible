@@ -1,12 +1,12 @@
 [all]
 
 [zookeeper-boxes]
-# NOTE - when this changes, change dns
 spark[1:3].thedevranch.net
 
 [kafka-boxes]
 spark1.thedevranch.net broker_id=1
 spark2.thedevranch.net broker_id=2
+spark3.thedevranch.net broker_id=3
 
 [kafka-boxes:vars]
 install_path=/usr/local/kafka_2.11-0.8.2.2
