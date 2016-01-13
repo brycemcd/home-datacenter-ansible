@@ -24,7 +24,8 @@
 
     - name: make sure zookeeper data directory exists
       file: dest=/usr/local/{{package_name}}/data state=directory mode=0755 owner=hduser group=hadoop
-        recurse=yes
+
+    - template: dest=/usr/local/{{package_name}}/data/myid src={{template_path}}/myid mode=0755 owner=hduser group=hadoop
 
     - template: dest=/usr/local/{{package_name}}/conf/zookeeper.properties src={{template_path}}/zoo_sample.cfg
         mode=0755

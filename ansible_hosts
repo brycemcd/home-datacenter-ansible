@@ -1,7 +1,9 @@
 [all]
 
 [zookeeper-boxes]
-spark[1:3].thedevranch.net
+spark1.thedevranch.net server_id=1
+spark2.thedevranch.net server_id=2
+spark3.thedevranch.net server_id=3
 
 [kafka-boxes]
 spark1.thedevranch.net broker_id=1
