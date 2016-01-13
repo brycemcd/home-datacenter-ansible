@@ -1,0 +1,10 @@
+---
+- hosts: zookeeper-boxes
+  user: hduser
+  sudo: no
+  vars:
+    package_name: zookeeper-3.4.6
+  tasks:
+    - shell: "/usr/local/{{package_name}}/bin/zkServer.sh stop /usr/local/{{package_name}}/conf/zookeeper.properties"
+      args:
+        executable: /bin/bash

@@ -1,0 +1,30 @@
+---
+- hosts: zookeeper-boxes
+  user: brycemcd
+  sudo: yes
+  vars:
+    package_name: zookeeper-3.4.6
+    template_path: ../../templates/zookeeper
+  tasks:
+    - command: rm "{{package_name}}.tar.gz"
+      ignore_errors: True
+
+    - name: download kafka
+      command: wget "http://www.motorlogy.com/apache/zookeeper/{{package_name}}/{{package_name}}.tar.gz"
+
+    - command: rm -rf {{package_name}}
+      ignore_errors: True
+
+    - command: tar zxvf {{package_name}}.tar.gz
+
+    - command: rm -rf /usr/local/{{package_name}}
+      ignore_errors: True
+
+    - command: mv {{package_name}} /usr/local/
+
+    - name: make sure zookeeper data directory exists
+      file: dest=/usr/local/{{package_name}}/data state=directory mode=0755 owner=hduser group=hadoop
+        recurse=yes
+
+    - template: dest=/usr/local/{{package_name}}/conf/zookeeper.properties src={{template_path}}/zoo_sample.cfg
+        mode=0755
