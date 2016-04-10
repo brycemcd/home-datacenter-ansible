@@ -1,0 +1,24 @@
+---
+- hosts: new-hadoop-boxes
+  user: brycemcd
+  sudo: yes
+  tasks:
+    - name: install zsh
+      apt: pkg=zsh state=latest update_cache=yes install_recommends=yes
+
+    - name: install git
+      apt: pkg=git state=latest update_cache=yes install_recommends=yes
+
+    - name: install ruby (so I can install vim)
+      apt: pkg=ruby state=latest update_cache=yes install_recommends=yes
+
+    - name: install rake (so I can install vim)
+      shell: gem install rake
+      args:
+        executable: /bin/bash
+
+#- include: system_users.yml
+#- include: java8.yml
+#- include: hadoop/install_hadoop.yml
+#- include: spark/install_spark.yml
+- include: brycemcd_shell_prefs.yml

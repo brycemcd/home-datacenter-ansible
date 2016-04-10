@@ -1,0 +1,17 @@
+---
+- hosts: new-hadoop-boxes
+  user: brycemcd
+  sudo: no
+  tasks:
+    - name: install tmux prefs
+      get_url: url=https://gist.githubusercontent.com/brycemcd/c43f5a3250256cd65686/raw/.tmux.conf dest=~/.tmux.conf mode=0744
+
+    - shell: rm -rf ~/.vim.old
+    - name: get vim rolling
+      shell: curl -Lo- https://bit.ly/janus-bootstrap | bash
+      args:
+        executable: /bin/bash
+
+    - name: install .vimrc before/after
+      get_url: url=https://gist.githubusercontent.com/brycemcd/c43f5a3250256cd65686/raw/.vimrc.after dest=~/.vimrc.after mode=0744
+      get_url: url=https://gist.githubusercontent.com/brycemcd/c43f5a3250256cd65686/raw/.vimrc.before dest=~/.vimrc.before mode=0744
