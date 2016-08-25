@@ -1,5 +1,5 @@
 ---
-- hosts: hadoop-boxes
+- hosts: new-hadoop-boxes
   user: brycemcd
   sudo: yes
   tasks:

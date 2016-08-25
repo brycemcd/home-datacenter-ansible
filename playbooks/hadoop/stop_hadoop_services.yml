@@ -4,11 +4,11 @@
   sudo: no
   tasks:
     - name: stop dfs
-      shell: /usr/local/hadoop-2.6.2//sbin/stop-dfs.sh
+      shell: "{{hadoop_install_path}}/sbin/stop-dfs.sh"
       args:
         executable: /bin/bash
 
     - name: stop yarn
-      shell: /usr/local/hadoop-2.6.2//sbin/stop-yarn.sh
+      shell: "{{hadoop_install_path}}/sbin/stop-yarn.sh"
       args:
         executable: /bin/bash

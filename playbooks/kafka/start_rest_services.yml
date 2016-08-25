@@ -1,0 +1,11 @@
+- hosts: kafka-boxes
+  user: hduser
+  sudo: no
+  vars:
+    abbrev_package_name: confluent-2.0.0
+    install_path: /usr/local/{{abbrev_package_name}}
+  tasks:
+    - shell: "{{install_path}}/bin/kafka-rest-start -daemon {{install_path}}/etc/kafka-rest.properties"
+      args:
+        executable: /bin/bash
+

@@ -21,4 +21,5 @@
 #- include: java8.yml
 #- include: hadoop/install_hadoop.yml
 #- include: spark/install_spark.yml
+- include: newrelic/install_new_relic.yml
 - include: brycemcd_shell_prefs.yml

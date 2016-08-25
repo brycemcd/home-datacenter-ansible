@@ -15,5 +15,4 @@ cluster up to date.
 * Install ssh public key in ~/.ssh/authorized_keys to permit
   password-less login
 * run visudo and give the brycemcd user passwordless sudo access
-* Bootstrap the system by running: `ansible-playbook -i ansible_hosts
-  playbooks/bootstrap_box.yml`
+* Bootstrap the system by running: `ansible-playbook -i ansible_hosts playbooks/bootstrap_box.yml`

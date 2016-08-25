@@ -5,13 +5,6 @@
   vars:
     local_hadoop_template_path: ../../templates/hadoop
   tasks:
-
-    - name: adds hdgroup
-      group: name=hadoop state=present
-
-    - name: adds hduser
-      user: name=hduser comment="runs all hadoop services" generate_ssh_key=yes
-
     - name: copy hadoop env_vars into bash.rc include
       template: src={{local_hadoop_template_path}}/hadoop_env_vars dest=/home/hduser/.hadoop_env_vars mode=0644 owner=hduser
 

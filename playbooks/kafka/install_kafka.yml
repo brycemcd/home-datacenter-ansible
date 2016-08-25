@@ -31,3 +31,6 @@
 
     - template: dest={{install_path}}/etc/kafka.properties src={{template_path}}/server.properties
         mode=0755
+
+    - template: dest={{install_path}}/etc/kafka-rest.properties src={{template_path}}/kafka-rest.properties
+        mode=0755

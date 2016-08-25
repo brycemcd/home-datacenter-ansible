@@ -1,0 +1,23 @@
+- hosts: hadoop-master
+  user: brycemcd
+  sudo: yes
+  vars:
+    local_hadoop_template_path: ../../templates/hadoop
+    hadoop_install_path: /usr/local/hadoop-2.6.2
+    master_hadoop_host:
+      { hostname: spark3.thedevranch.net, ip: 10.1.2.244 }
+    hadoop_slaves_added:
+      - { hostname: spark4.thedevranch.net, ip: 10.1.2.230 }
+    hadoop_slaves_justhostnames:
+      - { hostname: spark4, ip: 10.1.2.230 }
+  tasks:
+    - name: add new slave to master namenode file
+      lineinfile: dest={{hadoop_install_path}}/etc/hadoop/slaves line="{{item.hostname}}"
+      with_items:
+        - "{{hadoop_slaves_added}}"
+
+    - name: update /etc/hosts
+      lineinfile: dest=/etc/hosts line="{{item.ip}} {{item.hostname}}"
+      with_items:
+        - "{{hadoop_slaves_added}}"
+        - "{{hadoop_slaves_justhostnames}}"

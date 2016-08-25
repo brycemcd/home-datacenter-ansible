@@ -1,6 +1,12 @@
 ---
 #- hosts: hadoop-boxes
 - hosts: new-hadoop-boxes
+  user: hduser
+  tasks:
+    - name: Make sure spark3's key is in authorized_keys
+      lineinfile: dest=.ssh/authorized_keys line="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDQNRr+/VmaNb6esWnezMDG9WaEZpfpQDkRiHqf4sXpKf3RWCdmRMgqh2oW5rD69srGm7y4LM5j0tMOfYc9L1nwQ+Y/shIWC8uIvtVz/SdngWLJsxOgMn4b6Qpaw2SeICxnTuQAx7qa+QZJvmph2gGXAYtNlvUTRXxWhDcPVmfTcsokBUNu5LzKSM6gVNUDm0U8R5+s1LB0pPjr8oOZ95YSHiDR91cn4tV5VG95UfeSeY9JOPDXi8QdXQAofn0f84zhUIsUxuoQVqOfbjr19vHa+VlGokZho56rC/vHun28mxO9OQbQqQ092rJA7r1r5kz1Rf8drZyTNsJSol25pEwp hduser@spark3"
+
+- hosts: new-hadoop-boxes
   user: brycemcd
   sudo: yes
   vars:
@@ -10,18 +16,18 @@
       - {hostname: spark1.thedevranch.net, ip: 10.1.2.235}
       - {hostname: spark2.thedevranch.net, ip: 10.1.2.234}
       - {hostname: spark3.thedevranch.net, ip: 10.1.2.244}
-      - {hostname: spark4.thedevranch.net, ip: 10.1.2.247}
+      - {hostname: spark4.thedevranch.net, ip: 10.1.2.230}
   tasks:
-    #- name: remove existing download if exists
-      #shell: rm -rf hadoop-2.6.2.tar.gz*
-      ##ignore_errors: True
+    - name: remove existing download if exists
+      shell: rm -rf hadoop-2.6.2.tar.gz*
+      ignore_errors: True
 
-    #- name: remove any untarred but unmoved versions too
-      #command: rm -rf hadoop-2.6.2
-      #ignore_errors: True
+    - name: remove any untarred but unmoved versions too
+      command: rm -rf hadoop-2.6.2
+      ignore_errors: True
 
-    #- name: download hadoop
-      #command: wget http://apache.mirrors.lucidnetworks.net/hadoop/common/hadoop-2.6.2/hadoop-2.6.2.tar.gz
+    - name: download hadoop
+      command: wget http://apache.mirrors.lucidnetworks.net/hadoop/common/hadoop-2.6.2/hadoop-2.6.2.tar.gz
 
     - name: untar hadoop
       command: tar zxvf hadoop-2.6.2.tar.gz
@@ -30,7 +36,7 @@
       command: rm -rf {{hadoop_install_path}}
       ignore_errors: True
 
-    - name: move spark
+    - name: move hadoop
       command: mv hadoop-2.6.2 /usr/local/
 
     - name: perms!

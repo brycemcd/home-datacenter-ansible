@@ -1,5 +1,5 @@
 ---
-- hosts: spark-boxes
+- hosts: spark-workers
   user: brycemcd
   sudo: yes
   vars:
@@ -7,26 +7,26 @@
     local_spark_template_path: ../../templates/spark
   tasks:
     - name: remove existing download if exists
-      command: rm -rf spark-1.5.2-bin-hadoop2.6.tgz
+      command: rm -rf spark-1.6.1-bin-hadoop2.6.tgz
       ignore_errors: True
 
     - name: download spark
-      command: wget http://d3kbcqa49mib13.cloudfront.net/spark-1.5.2-bin-hadoop2.6.tgz
+      command: wget http://d3kbcqa49mib13.cloudfront.net/spark-1.6.1-bin-hadoop2.6.tgz
 
     - name: untar spark
-      command: tar zxvf spark-1.5.2-bin-hadoop2.6.tgz
+      command: tar zxvf spark-1.6.1-bin-hadoop2.6.tgz
 
     - name: remove anything that might be there
       command: rm -rf {{spark_install_path}}
       ignore_errors: True
 
     - name: move spark
-      command: creates="local executable of spark" mv spark-1.5.2-bin-hadoop2.6 /usr/local/
+      command: creates="local executable of spark" mv spark-1.6.1-bin-hadoop2.6 /usr/local/
 
     - name: perms!
       file: path={{spark_install_path}} state=directory mode=755 owner=hduser group=hadoop
 
-- hosts: spark-boxes
+- hosts: spark-workers
   user: hduser
   sudo: no
   vars:
@@ -54,6 +54,7 @@
       - spark1.thedevranch.net
       - spark2.thedevranch.net
       - spark3.thedevranch.net
+      - spark4.thedevranch.net
   tasks:
     - name: create spark env file to make sure correct IP is bound
       template: src={{local_spark_template_path}}/conf_spark_env dest={{spark_install_path}}/conf/spark-env.sh mode=755
