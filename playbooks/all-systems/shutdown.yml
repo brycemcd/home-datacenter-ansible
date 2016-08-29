@@ -1,0 +1,6 @@
+---
+- hosts: spark-workers
+  user: brycemcd
+  sudo: yes
+  tasks:
+    - command: shutdown now -h
