@@ -28,11 +28,14 @@ spark[4].thedevranch.net
 [hadoop-boxes:vars]
 hadoop_install_path=/usr/local/hadoop-2.6.2
 
+[spark-new-box]
+spark5.thedevranch.net
+
 [spark-executor]
 spark3.thedevranch.net
 
 [spark-workers]
-spark[2:4].thedevranch.net
+spark[3:5].thedevranch.net
 
 [spark-boxes:children]
 spark-executor
