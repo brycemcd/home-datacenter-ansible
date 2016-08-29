@@ -1,0 +1,9 @@
+---
+- hosts: spark-workers
+  user: brycemcd
+  sudo: yes
+  tasks:
+
+    # NOTE: not all distros come with unzip installed by default
+
+    - command: shutdown now -h
