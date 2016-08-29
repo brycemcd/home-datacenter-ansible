@@ -14,7 +14,7 @@ spark3.thedevranch.net broker_id=3 advertised_host_name=spark3.thedevranch.net
 install_path=/usr/local/kafka_2.11-0.8.2.2
 
 [new_relic-boxes]
-spark[1:4].thedevranch.net
+spark[3:5].thedevranch.net
 
 [new_relic-boxes:vars]
 nr_key=d4fa2529a9705c3e30e0af59128ac52bcc0e76bb
@@ -35,7 +35,7 @@ hive_aux_path=/apps/elasticsearch
 spark[1:3].thedevranch.net
 
 [new-hadoop-boxes]
-spark4.thedevranch.net
+spark5.thedevranch.net
 
 [hadoop-boxes]
 spark[2:4].thedevranch.net
@@ -49,9 +49,6 @@ spark[4].thedevranch.net
 
 [hadoop-boxes:vars]
 hadoop_install_path=/usr/local/hadoop-2.6.2
-
-[spark-new-box]
-spark5.thedevranch.net
 
 [spark-executor]
 spark3.thedevranch.net

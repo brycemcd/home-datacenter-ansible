@@ -18,8 +18,12 @@
         executable: /bin/bash
 
 #- include: system_users.yml
+#- include: new_relic/install_new_relic.yml
+#- include: brycemcd_shell_prefs.yml
+#- include: all-systems/etc-hosts.yml
+#
+# TODO:
 #- include: java8.yml
 #- include: hadoop/install_hadoop.yml
 #- include: spark/install_spark.yml
-- include: newrelic/install_new_relic.yml
-- include: brycemcd_shell_prefs.yml
+#

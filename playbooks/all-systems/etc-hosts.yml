@@ -1,0 +1,15 @@
+---
+- hosts: new-hadoop-boxes
+  user: brycemcd
+  sudo: yes
+  vars:
+    hosts_and_ips:
+      - {hostname: spark3.thedevranch.net, ip: 10.1.2.244}
+      - {hostname: spark4.thedevranch.net, ip: 10.1.2.230}
+      - {hostname: spark5.thedevranch.net, ip: 10.1.2.236}
+  tasks:
+    - name: add hosts to etc hosts <-- causes many bugs if not!
+      lineinfile: dest=/etc/hosts line="{{item.ip}} {{item.hostname}}" state=present
+      with_items:
+        - "{{hosts_and_ips}}"
+        - {hostname: hdfs-master.thedevranch.net, ip: 10.1.2.244}
