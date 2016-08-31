@@ -23,15 +23,10 @@ spark[3:5].thedevranch.net
 nr_key=d4fa2529a9705c3e30e0af59128ac52bcc0e76bb
 
 [new-elastic-boxes]
-spark[4:5].thedevranch.net
-web01.thedevranch.net
 
 [elastic-boxes]
-spark[3:5].thedevranch.net
+spark[3:4].thedevranch.net
 web01.thedevranch.net
-
-[elastic-onebox]
-spark2.thedevranch.net
 
 [elastic-boxes:vars]
 es_install_path=/usr/local/elasticsearch-1.7.3
