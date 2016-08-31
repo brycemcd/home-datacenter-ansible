@@ -1,9 +1,0 @@
----
-- hosts: new-hadoop-boxes
-  user: brycemcd
-  sudo: yes
-  tasks:
-    - name: Adds hduser
-      user: name=hduser comment="Hadoop Apps should run under this user"
-    - group: name=hadoop state=present
-    - authorized_key: user=hduser key=https://github.com/brycemcd.keys

@@ -15,3 +15,6 @@
     - name: install .vimrc before/after
       get_url: url=https://gist.githubusercontent.com/brycemcd/c43f5a3250256cd65686/raw/.vimrc.after dest=~/.vimrc.after mode=0744
     - get_url: url=https://gist.githubusercontent.com/brycemcd/c43f5a3250256cd65686/raw/.vimrc.before dest=~/.vimrc.before mode=0744
+
+    - name: set shell to zsh
+      command: chsh -s /usr/bin/zsh

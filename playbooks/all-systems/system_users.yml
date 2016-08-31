@@ -1,0 +1,17 @@
+---
+- hosts: new-hadoop-boxes
+  user: brycemcd
+  sudo: yes
+  tasks:
+    - name: Adds hduser
+      user: name=hduser comment="Hadoop Apps should run under this user"
+    - group: name=hadoop state=present
+    - authorized_key: user=hduser key=https://github.com/brycemcd.keys
+
+- hosts: new-hadoop-boxes
+  user: hduser
+  sudo: no
+  tasks:
+    # TODO: this can't be idiomatic
+    - name: Make sure spark3's key is in authorized_keys
+      lineinfile: dest=.ssh/authorized_keys line="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDQNRr+/VmaNb6esWnezMDG9WaEZpfpQDkRiHqf4sXpKf3RWCdmRMgqh2oW5rD69srGm7y4LM5j0tMOfYc9L1nwQ+Y/shIWC8uIvtVz/SdngWLJsxOgMn4b6Qpaw2SeICxnTuQAx7qa+QZJvmph2gGXAYtNlvUTRXxWhDcPVmfTcsokBUNu5LzKSM6gVNUDm0U8R5+s1LB0pPjr8oOZ95YSHiDR91cn4tV5VG95UfeSeY9JOPDXi8QdXQAofn0f84zhUIsUxuoQVqOfbjr19vHa+VlGokZho56rC/vHun28mxO9OQbQqQ092rJA7r1r5kz1Rf8drZyTNsJSol25pEwp hduser@spark3"

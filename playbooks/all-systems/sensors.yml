@@ -1,0 +1,10 @@
+---
+- hosts: spark4.thedevranch.net
+  user: brycemcd
+  sudo: yes
+  tasks:
+    - name: install sensors
+      apt: pkg=lm-sensors state=latest update_cache=yes install_recommends=yes
+      notify:
+            - detect sensors
+
