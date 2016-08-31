@@ -1,5 +1,5 @@
 ---
-- hosts: elastic-boxes
+- hosts: new-elastic-boxes
   user: brycemcd
   sudo: yes
   vars:

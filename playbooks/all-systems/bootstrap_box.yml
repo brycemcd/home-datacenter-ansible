@@ -1,5 +1,5 @@
 ---
-- hosts: new-hadoop-boxes
+- hosts: new-bootstrap-boxes
   user: brycemcd
   sudo: yes
   tasks:
@@ -17,11 +17,11 @@
       args:
         executable: /bin/bash
 
-- include: all-systems/system_users.yml
+    - include: system_users.yml
+    - include: java8.yml
 #- include: new_relic/install_new_relic.yml
 #- include: brycemcd_shell_prefs.yml
 #- include: all-systems/etc-hosts.yml
-#- include: java8.yml
 #
 # TODO:
 #- include: hadoop/install_hadoop.yml
