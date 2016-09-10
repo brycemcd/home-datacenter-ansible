@@ -3,14 +3,13 @@
   user: brycemcd
   sudo: yes
   tasks:
-    - name: install zsh
-      apt: pkg=zsh state=latest update_cache=yes install_recommends=yes
-
-    - name: install git
-      apt: pkg=git state=latest update_cache=yes install_recommends=yes
-
-    - name: install ruby (so I can install vim)
-      apt: pkg=ruby state=latest update_cache=yes install_recommends=yes
+    - name: install packages
+      apt: pkg={{item}} state=latest update_cache=yes install_recommends=yes
+      with_items:
+        - zsh
+        - git
+        - ruby
+        - vim
 
     - name: install rake (so I can install vim)
       shell: gem install rake
@@ -19,8 +18,15 @@
 
     - include: system_users.yml
     - include: java8.yml
-#- include: new_relic/install_new_relic.yml
-#- include: brycemcd_shell_prefs.yml
+    - include: install_new_relic.yml
+
+    - user: name=brycemcd shell=/usr/bin/zsh groups=hduser
+
+- hosts: new-bootstrap-boxes
+  user: brycemcd
+  sudo: no
+  tasks:
+    - include: brycemcd_shell_prefs.yml
 #- include: all-systems/etc-hosts.yml
 #
 # TODO:

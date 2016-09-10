@@ -1,9 +1,10 @@
 ---
-tasks:
-  - name: Adds hduser
-    user: name=hduser comment="Hadoop Apps should run under this user"
-  - group: name=hadoop state=present
-  - authorized_key: user=hduser key=https://github.com/brycemcd.keys
+- name: Adds hduser
+  user: name=hduser comment="Hadoop Apps should run under this user"
+
+- group: name=hadoop state=present
+
+- authorized_key: user=hduser key=https://github.com/brycemcd.keys
 
     # TODO: this can't be idiomatic
     # FIXME: have this run as the hduser

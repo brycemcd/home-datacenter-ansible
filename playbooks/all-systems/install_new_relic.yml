@@ -1,0 +1,22 @@
+---
+- file: path=/etc/apt/sources.list.d/newrelic.list state=absent
+
+- file: dest=/etc/apt/sources.list.d/newrelic.list mode=0755 state=touch
+
+- lineinfile: dest=/etc/apt/sources.list.d/newrelic.list line="deb http://apt.newrelic.com/debian/ newrelic non-free"
+    state=present
+
+- name: trust the key
+  shell: wget -O- https://download.newrelic.com/548C16BF.gpg | apt-key add -
+  args:
+    executable: /bin/bash
+
+- apt: update_cache=yes
+- apt: name=newrelic-sysmond
+
+- name: set the key
+  shell: nrsysmond-config --set license_key={{nr_key}}
+  args:
+    executable: /bin/bash
+
+- command: /etc/init.d/newrelic-sysmond start
