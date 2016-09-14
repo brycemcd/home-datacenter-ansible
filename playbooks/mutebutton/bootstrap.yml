@@ -1,0 +1,18 @@
+---
+- hosts: mutebutton-boxes
+  user: brycemcd
+  sudo: yes
+  vars:
+    destination_dir: /home/brycemcd/sites
+  tasks:
+    - name: install packages
+      apt: pkg={{item}} state=latest update_cache=yes install_recommends=yes
+      with_items:
+        - sox
+        - alsa-utils
+
+    - file: dest={{destination_dir}} state=directory mode=0755 owner=brycemcd group=brycemcd
+
+    - name: checkout git repo
+      sudo: no
+      git: repo=https://github.com/brycemcd/muteButton.git dest={{destination_dir}}/mutebutton

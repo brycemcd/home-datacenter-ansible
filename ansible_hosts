@@ -8,6 +8,9 @@ nr_key=d4fa2529a9705c3e30e0af59128ac52bcc0e76bb
 spark_master_ip=10.1.2.244
 spark_install_path=/usr/local/spark-1.6.2-bin-hadoop2.6
 
+[mutebutton-boxes]
+web02.thedevranch.net
+
 [zookeeper-boxes]
 spark1.thedevranch.net server_id=1
 spark2.thedevranch.net server_id=2
