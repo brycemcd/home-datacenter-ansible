@@ -2,6 +2,8 @@
 - hosts: new-bootstrap-boxes
   user: brycemcd
   sudo: yes
+  vars:
+    local_template_path: ../../templates/all-systems
   tasks:
     - name: install packages
       apt: pkg={{item}} state=latest update_cache=yes install_recommends=yes
@@ -10,6 +12,7 @@
         - git
         - ruby
         - vim
+        - tmux
 
     - name: install rake (so I can install vim)
       shell: gem install rake
@@ -21,6 +24,10 @@
     - include: install_new_relic.yml
 
     - user: name=brycemcd shell=/usr/bin/zsh groups=hduser
+    - template: src={{local_template_path}}/git_config
+        dest=/home/brycemcd/.gitconfig
+        mode=0664
+        owner=brycemcd
 
 - hosts: new-bootstrap-boxes
   user: brycemcd
