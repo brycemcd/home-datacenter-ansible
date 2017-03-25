@@ -1,0 +1,21 @@
+#. /usr/share/doc/git-core/contrib/hooks/post-receive-email
+read oldrev newrev ref
+echo $USER
+echo $PWD
+
+all=`cat "/dev/stdin"`
+unset GIT_DIR
+
+echo "Old revision: $oldrev"
+echo "New revision: $newrev"
+echo "Reference name: $ref"
+
+cd /opt/sites/email-listicle
+echo "deploying new release"
+git reset --hard &&
+  git pull origin master &&
+  /usr/local/bin/grunt --target production
+
+# push tag to GH
+#git tag deploys/$(date +"%Y-%m-%d@%H%M")
+#git push origin --tags

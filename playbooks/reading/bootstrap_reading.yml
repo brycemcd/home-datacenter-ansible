@@ -1,0 +1,63 @@
+---
+- hosts: new-reading-box
+  user: brycemcd
+  sudo: yes
+  vars:
+    local_template_path: ../../templates/reading
+  tasks:
+    #- include: ../nginx/install_nginx.yml
+    #- include: ../npm/install_npm.yml
+    #- name: install packages
+      #apt: pkg={{item}} state=latest update_cache=yes install_recommends=yes
+      #with_items:
+        #- automake
+        #- libtool
+    #- command: gem install haml
+    # when > 1 person works on this app, change this to a group perm
+    - template: src={{local_template_path}}/listicle.conf
+        dest=/etc/nginx/sites-enabled/listicle.conf
+        mode=0664
+
+    # NOTE: this seems horribly insecure
+    - template: src={{local_template_path}}/htpasswd
+        dest=/etc/nginx/conf.d/htpasswd
+
+    - file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+
+    - command: /etc/init.d/nginx reload
+
+    - file: path=/opt/sites state=directory mode=0755 owner=brycemcd
+    - file: path=/opt/repos state=directory mode=0755 owner=brycemcd
+    - file:
+        src: /usr/bin/nodejs
+        dest: /usr/bin/node
+        state: link
+    - command: npm install -g grunt-cli
+
+- hosts: new-reading-box
+  user: brycemcd
+  sudo: no
+  vars:
+    local_template_path: ../../templates/reading
+  tasks:
+    - name: clone the site for what the webserver will serve
+      git:
+        repo: git@github.com:brycemcd/email-listicle-frontend.git
+        dest: /opt/sites/email-listicle
+        depth: 1
+        accept_hostkey: True
+
+    - name: clone a bare repo for herko-style pushing
+      git:
+        repo: git@github.com:brycemcd/email-listicle-frontend.git
+        dest: /opt/repos/email-listicle
+        bare: yes
+        accept_hostkey: True
+
+    - template: src={{local_template_path}}/post-receive
+        dest=/opt/repos/email-listicle/hooks/post-receive
+        mode=0744
+
+    - command: npm install chdir=/opt/sites/email-listicle
