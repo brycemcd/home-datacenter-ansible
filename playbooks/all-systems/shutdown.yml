@@ -1,5 +1,5 @@
 ---
-- hosts: spark-workers
+- hosts: '{{target_hosts}}'
   user: brycemcd
   sudo: yes
   tasks:

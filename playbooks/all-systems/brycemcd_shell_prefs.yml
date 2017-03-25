@@ -12,4 +12,8 @@
   get_url: url=https://gist.githubusercontent.com/brycemcd/c43f5a3250256cd65686/raw/.vimrc.after dest=~/.vimrc.after mode=0744
 - get_url: url=https://gist.githubusercontent.com/brycemcd/c43f5a3250256cd65686/raw/.vimrc.before dest=~/.vimrc.before mode=0744
 
+- authorized_key:
+    user: brycemcd
+    key: https://github.com/brycemcd.keys
+
 # TODO: get my zshconf files in here

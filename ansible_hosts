@@ -1,7 +1,10 @@
 [all]
 
 [new-bootstrap-boxes]
-web02.thedevranch.net
+64.137.163.234
+
+[new-reading-box]
+64.137.163.234
 
 [new-bootstrap-boxes:vars]
 nr_key=d4fa2529a9705c3e30e0af59128ac52bcc0e76bb
@@ -31,10 +34,12 @@ spark[3:5].thedevranch.net
 nr_key=d4fa2529a9705c3e30e0af59128ac52bcc0e76bb
 
 [new-elastic-boxes]
+10.1.2.107
 
 [elastic-boxes]
 spark[3:4].thedevranch.net
 web01.thedevranch.net
+web02.thedevranch.net
 
 [elastic-boxes:vars]
 es_install_path=/usr/local/elasticsearch-1.7.3
@@ -49,7 +54,7 @@ spark[1:3].thedevranch.net
 spark5.thedevranch.net
 
 [hadoop-boxes]
-spark[2:4].thedevranch.net
+spark[2:5].thedevranch.net
 
 [hadoop-master]
 spark3.thedevranch.net
@@ -74,6 +79,9 @@ spark-workers
 [spark-boxes:vars]
 spark_master_ip=10.1.2.244
 spark_install_path=/usr/local/spark-1.6.1-bin-hadoop2.6
+
+[web-boxes]
+web0[1:2].thedevranch.net
 
 [new-hadoop-boxes:vars]
 spark_master_ip=10.1.2.244

@@ -6,6 +6,7 @@
     #elasticsearch_env_filename: spark_environment_params
     local_elasticsearch_template_path: ../../templates/elasticsearch
     env_vars_path: /home/hduser/.es_env_vars
+    es_data_path: /usr/local/elasticsearch-1.7.3/data
   tasks:
     # https://www.elastic.co/downloads/past-releases/elasticsearch-1-7-3
     - name: remove existing download if exists
