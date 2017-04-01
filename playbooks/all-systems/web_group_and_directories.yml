@@ -1,0 +1,12 @@
+---
+- name: Adds web group to run web sites
+  group:
+    name: web
+    state: present
+
+- file:
+    path: /opt/sites
+    state: directory
+    mode: 0775
+    owner: brycemcd
+    group: web

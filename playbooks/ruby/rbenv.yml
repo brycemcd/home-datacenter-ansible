@@ -1,0 +1,38 @@
+---
+- git:
+    repo: https://github.com/rbenv/rbenv.git
+    dest: ~/.rbenv
+
+- name: 'compile C extensions for rbenv'
+  command: src/configure chdir=~/.rbenv
+  command: make -C src chdir=~/.rbenv
+
+- file:
+    path: ~/.zshrc
+    state: touch
+
+- lineinfile:
+    dest: ~/.zshrc
+    line: 'export PATH="$HOME/.rbenv/bin:$PATH"'
+    state: present
+    insertafter: EOF
+
+- lineinfile:
+    dest: ~/.zshrc
+    line: 'eval "$(rbenv init -)"'
+    state: present
+    insertafter: EOF
+- git:
+    repo: https://github.com/rbenv/ruby-build.git
+    dest: ~/.rbenv/plugins/ruby-build
+
+#- hosts: new-bootstrap-boxes
+  #user: brycemcd
+  #sudo: yes
+  #tasks:
+    ## required for any ruby installs
+    #- apt: pkg={{item}} state=latest update_cache=yes install_recommends=yes
+      #with_items:
+        #- libssl-dev
+        #- libreadline-dev
+        #- zlib1g-dev

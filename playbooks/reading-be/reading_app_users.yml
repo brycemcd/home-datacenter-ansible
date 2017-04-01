@@ -1,0 +1,13 @@
+---
+- hosts: reading-be
+  user: brycemcd
+  sudo: yes
+  tasks:
+
+    - include: ../all-systems/web_group_and_directories.yml
+    - user:
+        name: reading-be
+        groups: web
+        generate_ssh_key: yes
+        ssh_key_bits: 2048
+        ssh_key_file: .ssh/id_rsa

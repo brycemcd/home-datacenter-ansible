@@ -1,0 +1,34 @@
+---
+- include: reading_app_users.yml
+- hosts: reading-be
+  user: brycemcd
+  sudo: no
+  vars:
+    local_template_path: ../../templates/reading
+  tasks:
+    - name: install rbenv of reading-be user
+      become: true
+      become_user: reading-be
+      include: ../ruby/rbenv.yml
+      # FIXME: I had to run these manually and have run out of patience
+      command: rbenv install 2.4.1
+      command: rbenv global 2.4.1
+      command: gem install bundler
+
+    - name: clone the repo
+      become: true
+      become_user: reading-be
+      git:
+        repo: https://github.com/brycemcd/email-listicle-backend.git
+        dest: /opt/sites/email-listicle-backend
+        accept_hostkey: true
+
+
+    - name: install gems
+      become: true
+      become_user: reading-be
+      command: bundle install
+      args:
+        chdir: /opt/sites/email-listicle-backend
+
+

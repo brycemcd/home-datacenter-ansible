@@ -1,10 +1,13 @@
 [all]
 
 [new-bootstrap-boxes]
-64.137.163.234
+lovelace.thedevranch.net
 
 [new-reading-box]
 64.137.163.234
+
+[reading-be]
+reading-be01.thedevranch.net
 
 [new-bootstrap-boxes:vars]
 nr_key=d4fa2529a9705c3e30e0af59128ac52bcc0e76bb
@@ -38,8 +41,8 @@ nr_key=d4fa2529a9705c3e30e0af59128ac52bcc0e76bb
 
 [elastic-boxes]
 spark[3:4].thedevranch.net
-web01.thedevranch.net
-web02.thedevranch.net
+es01.thedevranch.net
+es02.thedevranch.net
 
 [elastic-boxes:vars]
 es_install_path=/usr/local/elasticsearch-1.7.3

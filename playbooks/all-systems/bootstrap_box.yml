@@ -5,29 +5,29 @@
   vars:
     local_template_path: ../../templates/all-systems
   tasks:
-    #- name: install packages
-      #apt: pkg={{item}} state=latest update_cache=yes install_recommends=yes
-      #with_items:
-        #- zsh
-        #- git
-        #- ruby
-        #- vim
-        #- tmux
+    - name: install packages
+      apt: pkg={{item}} state=latest update_cache=yes install_recommends=yes
+      with_items:
+        - zsh
+        - git
+        - ruby
+        - vim
+        - tmux
 
-    #- name: install rake (so I can install vim)
-      #shell: gem install rake
-      #args:
-        #executable: /bin/bash
+    - name: install rake (so I can install vim)
+      shell: gem install rake
+      args:
+        executable: /bin/bash
 
     ##- include: system_users.yml
     ##- include: java8.yml
-    #- include: install_new_relic.yml
+    - include: install_new_relic.yml
 
-    #- user: name=brycemcd shell=/usr/bin/zsh #groups=hduser
-    #- template: src={{local_template_path}}/git_config
-        #dest=/home/brycemcd/.gitconfig
-        #mode=0664
-        #owner=brycemcd
+    - user: name=brycemcd shell=/usr/bin/zsh #groups=hduser
+    - template: src={{local_template_path}}/git_config
+        dest=/home/brycemcd/.gitconfig
+        mode=0664
+        owner=brycemcd
 
 - hosts: new-bootstrap-boxes
   user: brycemcd
