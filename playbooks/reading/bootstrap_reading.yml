@@ -30,6 +30,7 @@
 
     - file: path=/opt/sites state=directory mode=0755 owner=brycemcd
     - file: path=/opt/repos state=directory mode=0755 owner=brycemcd
+
     - file:
         src: /usr/bin/nodejs
         dest: /usr/bin/node

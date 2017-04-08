@@ -31,6 +31,7 @@ http://famous-mathematicians.org/
 |----|---------------|--------|-----------|-----|
 |lovelace|host|nyc01|red gigabyte brick, AMD proc, 8GB RAM, 120GB SSD|lovelace.thedevranch.net|
 |turing|host|beav01|red gigabyte brick, AMD proc, 8GB RAM, 120GB SSD |turing.thedevranch.net|
+|pascal|host|canada hosted|Cloud at Cost: a cheap public IP address with a shoddy service|pascal.thedevranch.net|
 |lovelace|service|nyc01|Elasticsearch|es01.thedevranch.net|
 |lovelace|service|nyc01|Mosquitto|mqtt01.thedevranch.net|
 |turing|service|beav01|Elasticsearch|es02.thedevranch.net|

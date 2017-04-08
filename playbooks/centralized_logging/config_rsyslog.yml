@@ -1,0 +1,47 @@
+---
+- hosts: physical-hosts
+  user: brycemcd
+  sudo: yes
+  vars:
+    local_template_path: ../../templates/centralized_logging
+  tasks:
+    - name: install papertrail pem
+      # TODO: check md5sum is consistent with what's published
+      shell: curl -o /etc/papertrail-bundle.pem https://papertrailapp.com/tools/papertrail-bundle.pem
+
+    - file:
+        dest: /etc/papertrail-bundle.pem
+        mode: 0644
+
+    - template:
+        src: "{{local_template_path}}/papertrail.conf"
+        dest: /etc/rsyslog.d/95-papertrail.conf
+        mode: 0644
+
+
+    # FIXME: this won't follow the redirect to actually get the deb!
+    #- get_url:
+        #url: https://github.com/papertrail/remote_syslog2/releases/download/v0.20-beta1/remote-syslog2_0.20-beta1_amd64.deb
+        #dest: /tmp/remote-syslog2_0.20-beta1_amd64.deb
+        #mode: 0440
+
+    - copy:
+        src: "{{local_template_path}}/remote-syslog2_0.20-beta1_amd64.deb"
+        dest: /tmp/remote-syslog2_0.20-beta1_amd64.deb
+        mode: 0644
+
+    - shell: dpkg -i /tmp/remote-syslog2_0.20-beta1_amd64.deb
+    - shell: apt-get install -f
+
+    - template:
+        src: "{{local_template_path}}/log_files.yml"
+        dest: /etc/log_files.yml
+        mode: 0644
+
+    - service:
+        name: rsyslog
+        state: restarted
+
+    - service:
+        name: remote_syslog
+        state: restarted
