@@ -3,6 +3,9 @@
 [new-bootstrap-boxes]
 reading-be02.thedevranch.net
 
+[redis-boxes]
+redis01.thedevranch.net
+
 [physical-hosts]
 pascal.thedevranch.net
 

@@ -1,0 +1,22 @@
+---
+- hosts: redis-boxes
+  user: brycemcd
+  sudo: yes
+  vars:
+    local_template_path: ../../templates/redis
+  tasks:
+    - name: install ppa
+      apt_repository:
+        repo: ppa:chris-lea/redis-server
+
+    - name : install redis server
+      apt:
+        name: redis-server
+
+    - template:
+        src: "{{local_template_path}}/redis.conf"
+        dest: /etc/redis/redis.conf
+
+    - service:
+        name: redis-server
+        state: restarted
