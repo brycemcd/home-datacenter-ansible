@@ -1,0 +1,33 @@
+---
+- hosts: psql-boxes
+  user: brycemcd
+  sudo: yes
+  vars:
+    local_template_path: ../../templates/psql
+    version: 9.6
+  tasks:
+    - apt_key:
+        url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+        state: present
+
+    - apt_repository:
+        repo: 'deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main'
+        state: present
+        update_cache: yes
+
+    - apt:
+        name: postgresql-{{version}}
+        state: present
+        update_cache: yes
+
+    - template:
+        src: "{{local_template_path}}/pg_hba.conf"
+        dest: "/etc/postgresql/{{version}}/main/pg_hba.conf"
+
+    - template:
+        src: "{{local_template_path}}/postgresql.conf"
+        dest: "/etc/postgresql/{{version}}/main/postgresql.conf"
+
+    - service:
+        name: postgresql
+        state: restarted

@@ -35,3 +35,5 @@ http://famous-mathematicians.org/
 |lovelace|service|nyc01|Elasticsearch|es01.thedevranch.net|
 |lovelace|service|nyc01|Mosquitto|mqtt01.thedevranch.net|
 |turing|service|beav01|Elasticsearch|es02.thedevranch.net|
+|lovelace|service|nyc01|postgres service|psql01.tthedevranch.net|
+|lovelace|service|nyc01|redis service|redis01.tthedevranch.net|

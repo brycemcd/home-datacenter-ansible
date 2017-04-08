@@ -3,6 +3,9 @@
 [new-bootstrap-boxes]
 reading-be02.thedevranch.net
 
+[psql-boxes]
+psql01.thedevranch.net
+
 [redis-boxes]
 redis01.thedevranch.net
 
