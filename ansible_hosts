@@ -1,7 +1,15 @@
 [all]
 
 [new-bootstrap-boxes]
-reading-be02.thedevranch.net
+newton.thedevranch.net
+
+[physical-hosts]
+pascal.thedevranch.net
+lovelace.thedevranch.net
+turing.thedevranch.net
+
+[physical-hosts:vars]
+nr_key=d4fa2529a9705c3e30e0af59128ac52bcc0e76bb
 
 [psql-boxes]
 psql01.thedevranch.net
@@ -9,17 +17,15 @@ psql01.thedevranch.net
 [redis-boxes]
 redis01.thedevranch.net
 
-[physical-hosts]
-pascal.thedevranch.net
-
 [brixboxes]
 turing.thedevranch.net
-
-[new-reading-box]
-64.137.163.234
+lovelace.thedevranch.net
 
 [reading-be]
 reading-be[01:02].thedevranch.net
+
+[reading-nginx]
+reading.thedevranch.net
 
 [new-bootstrap-boxes:vars]
 nr_key=d4fa2529a9705c3e30e0af59128ac52bcc0e76bb
@@ -41,12 +47,6 @@ spark3.thedevranch.net broker_id=3 advertised_host_name=spark3.thedevranch.net
 
 [kafka-boxes:vars]
 install_path=/usr/local/kafka_2.11-0.8.2.2
-
-[new_relic-boxes]
-spark[3:5].thedevranch.net
-
-[new_relic-boxes:vars]
-nr_key=d4fa2529a9705c3e30e0af59128ac52bcc0e76bb
 
 [new-elastic-boxes]
 10.1.2.107
