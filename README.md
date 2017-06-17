@@ -33,7 +33,7 @@ http://famous-mathematicians.org/
 |turing|host|beav01|red gigabyte brick, AMD proc, 8GB RAM, 120GB SSD |turing.thedevranch.net|
 |pascal|host|canada hosted|Cloud at Cost: a cheap public IP address with a shoddy service|pascal.thedevranch.net|
 |lovelace|service|nyc01|Elasticsearch|es01.thedevranch.net|
-|lovelace|service|nyc01|Mosquitto|mqtt01.thedevranch.net mqtt02.thedevranch.net|
+|spark4 (legacy - needs update!)|service|nyc01|Mosquitto|mqtt01.thedevranch.net mqtt02.thedevranch.net|
 |turing|service|beav01|Elasticsearch|es02.thedevranch.net|
 |lovelace|service|nyc01|postgres service|psql01.tthedevranch.net|
 |lovelace|service|nyc01|redis service|redis01.tthedevranch.net|
