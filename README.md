@@ -12,9 +12,24 @@ cluster up to date.
 
 * Install Ubuntu 14.04 LTS (latest LTS release).
 * Make sure install has a brycemcd user
+
+```bash
+useradd -m brycemcd
+```
 * Install ssh public key in ~/.ssh/authorized_keys to permit
   password-less login
+
+```bash
+su brycemcd
+ssh-keygen
+cd .ssh
+curl https://github.com/brycemcd.keys -o authorized_keys
+```
 * run visudo and give the brycemcd user passwordless sudo access
+
+`brycemcd ALL=(ALL:ALL) NOPASSWD:ALL`
+
+* Add 
 * Bootstrap the system by running: `ansible-playbook -i ansible_hosts playbooks/bootstrap_box.yml`
 
 

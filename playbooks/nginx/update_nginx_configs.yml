@@ -1,0 +1,16 @@
+---
+- hosts: reading-nginx
+  user: brycemcd
+  sudo: yes
+  vars:
+    local_template_path: ../../templates/reading
+  tasks:
+    # NOTE: to auto renew the TLS cert: certbot-auto renew
+    - template:
+        src: "{{local_template_path}}/listicle.conf"
+        dest: /etc/nginx/sites-enabled/listicle.conf
+        mode: 0664
+
+    - service:
+        name: nginx
+        state: restarted

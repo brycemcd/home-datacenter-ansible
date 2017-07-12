@@ -1,24 +1,24 @@
 ---
-- hosts: new-reading-box
+- hosts: reading-nginx
   user: brycemcd
   sudo: yes
   vars:
     local_template_path: ../../templates/reading
   tasks:
-    #- include: ../nginx/install_nginx.yml
-    #- include: ../npm/install_npm.yml
-    #- name: install packages
-      #apt: pkg={{item}} state=latest update_cache=yes install_recommends=yes
-      #with_items:
-        #- automake
-        #- libtool
-    #- command: gem install haml
+    - include: ../nginx/install_nginx.yml
+    - include: ../npm/install_npm.yml
+    - name: install packages
+      apt: pkg={{item}} state=latest update_cache=yes install_recommends=yes
+      with_items:
+        - automake
+        - libtool
+    - command: gem install haml
     # when > 1 person works on this app, change this to a group perm
     - template: src={{local_template_path}}/listicle.conf
         dest=/etc/nginx/sites-enabled/listicle.conf
         mode=0664
 
-    # NOTE: this seems horribly insecure
+    # NOTE: this is horribly insecure
     - template: src={{local_template_path}}/htpasswd
         dest=/etc/nginx/conf.d/htpasswd
 
@@ -37,7 +37,8 @@
         state: link
     - command: npm install -g grunt-cli
 
-- hosts: new-reading-box
+# NOTE: before this runs add the box's ssh key as a deploy key to the repo
+- hosts: reading-nginx
   user: brycemcd
   sudo: no
   vars:

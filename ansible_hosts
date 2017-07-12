@@ -1,7 +1,7 @@
 [all]
 
 [new-bootstrap-boxes]
-newton.thedevranch.net
+64.137.239.27
 
 [physical-hosts]
 pascal.thedevranch.net
@@ -24,8 +24,11 @@ lovelace.thedevranch.net
 [reading-be]
 reading-be[01:02].thedevranch.net
 
-[reading-nginx]
+[reading-nginx-dep]
 reading.thedevranch.net
+
+[reading-nginx]
+64.137.239.27
 
 [new-bootstrap-boxes:vars]
 nr_key=d4fa2529a9705c3e30e0af59128ac52bcc0e76bb
