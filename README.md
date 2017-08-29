@@ -36,4 +36,6 @@ http://famous-mathematicians.org/
 |spark4 (legacy - needs update!)|service|nyc01|Mosquitto|mqtt01.thedevranch.net mqtt02.thedevranch.net|
 |turing|service|beav01|Elasticsearch|es02.thedevranch.net|
 |lovelace|service|nyc01|postgres service|psql01.tthedevranch.net|
+|spark4 (legacy)|service|nyc01|postgres service|psql02.tthedevranch.net|
+|spark3 (legacy)|service|nyc01|postgres service|psql03.tthedevranch.net|
 |lovelace|service|nyc01|redis service|redis01.tthedevranch.net|
