@@ -1,0 +1,16 @@
+# TODO: this
+---
+- hosts: haproxy-boxes
+  user: brycemcd
+  sudo: yes
+  vars:
+    local_template_path: ../../templates/haproxy
+  tasks:
+    - template:
+        src: "{{local_template_path}}/haproxy.conf"
+        dest: /etc/haproxy/haproxy.cfg
+        mode: 0664
+
+    - service:
+        name: haproxy
+        state: restarted
