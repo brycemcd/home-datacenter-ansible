@@ -5,6 +5,9 @@ of concept at my job. I've since bootstrapped a small hadoop/spark
 cluster in my home an  I use these playbooks/templates to keep the
 cluster up to date.
 
+`v1.9/` directory contains work from 2015 when I first began
+experimenting with ansible and Hadoop. This is useful as a reference
+now.
 
 ## Bootstrap a Cluster
 
@@ -54,3 +57,4 @@ http://famous-mathematicians.org/
 |spark4 (legacy)|service|nyc01|postgres service|psql02.tthedevranch.net|
 |spark3 (legacy)|service|nyc01|postgres service|psql03.tthedevranch.net|
 |lovelace|service|nyc01|redis service|redis01.tthedevranch.net|
+|euclid|host|nyc01|old laptop. i7, 8GB RAM, ~100GB SSD|euclid.thedevranch.net|

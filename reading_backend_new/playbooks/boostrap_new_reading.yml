@@ -1,0 +1,33 @@
+---
+- hosts: reading_backend_new
+  vars:
+    install_path: /opt/apps/reading_backend_new
+    app_user: reading_backend
+  become: yes
+  become_method: sudo
+  tasks:
+  - apt:
+       name: "{{item}}"
+       state: latest
+       update_cache: yes
+       install_recommends: yes
+    with_items:
+      - python-pip
+
+  - user:
+      name: "{{app_user}}"
+      groups: docker
+
+  - file:
+      path: "{{install_path}}"
+      state: directory
+      mode: 0755
+      owner: "{{app_user}}"
+      group: "{{app_user}}"
+
+  - git:
+      repo: "https://github.com/brycemcd/scalatramess.git"
+      dest: "{{install_path}}"
+    become: yes
+    become_user: "{{app_user}}"
+    become_method: sudo

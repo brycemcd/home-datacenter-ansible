@@ -1,0 +1,8 @@
+all:
+  hosts:
+    euclid:
+      ansible_host: 10.1.2.228
+
+reading_backend_new:
+  hosts:
+    euclid:

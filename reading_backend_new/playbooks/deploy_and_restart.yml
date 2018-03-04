@@ -1,0 +1,72 @@
+---
+- hosts: reading_backend_new
+  vars:
+    install_path: /opt/apps/reading_backend_new
+    app_user: reading_backend
+    app_name: readingbackend
+  become: yes
+  become_user: "{{app_user}}"
+  become_method: sudo
+
+  tasks:
+  - name: pull master
+    git:
+      repo: "https://github.com/brycemcd/scalatramess.git"
+      dest: "{{install_path}}"
+
+  # NOTE: There MUST be a community convention for this:
+  - name: make sure project dependencies are present
+    file:
+      path: "{{install_path}}/project/plugins.sbt"
+      state: touch
+      mode: 0755
+
+  - lineinfile:
+      path: "{{install_path}}/project/plugins.sbt"
+      line: 'addSbtPlugin("com.typesafe.sbt" % "sbt-twirl" % "1.3.13")'
+      insertafter: EOF
+
+  - lineinfile:
+      path: "{{install_path}}/project/plugins.sbt"
+      line: 'addSbtPlugin("org.scalatra.sbt" % "sbt-scalatra" % "1.0.1")'
+      insertafter: EOF
+
+  - file:
+      path: "{{install_path}}/project/build.properties"
+      state: touch
+      mode: 0755
+      owner: "{{app_user}}"
+      group: "{{app_user}}"
+
+  - lineinfile:
+      path: "{{install_path}}/project/build.properties"
+      line: "sbt.version = 1.1.1"
+      insertafter: EOF
+
+
+  - name: build latest docker image
+    docker_image:
+      path: "{{install_path}}"
+      name: "{{app_name}}"
+
+  - template:
+      src: ../templates/reading_app.secret.env
+      dest: "{{install_path}}/secrets.env"
+      mode: 0400
+
+  - name: stop and remove old container
+    command: docker stop readingbackend
+  - command: docker container rm readingbackend
+
+  - name: start container
+    docker_container:
+      name: "{{app_name}}"
+      image: "{{app_name}}"
+      # FIXME: this throws an exception
+      # auto_remove: yes
+      restart_policy: unless-stopped
+      env_file: "{{install_path}}/secrets.env"
+      env:
+        SQSMessageQueueName: email-listicle-mail-messages
+        DB_JDBC_URL: jdbc:postgresql://psql02.thedevranch.net/reading
+        DB_USERNAME: brycemcd
