@@ -10,7 +10,7 @@ cluster up to date.
 
 ### Manual Steps
 
-* Install Ubuntu 14.04 LTS (latest LTS release).
+* Install Ubuntu 16.04 LTS (latest LTS release).
 * Make sure install has a brycemcd user
 
 ```bash
