@@ -4,6 +4,7 @@
     install_path: /opt/apps/reading_backend_new
     app_user: reading_backend
     app_name: readingbackend
+    template_path: ../templates
   become: yes
   become_user: "{{app_user}}"
   become_method: sudo
@@ -14,35 +15,21 @@
       repo: "https://github.com/brycemcd/scalatramess.git"
       dest: "{{install_path}}"
 
-  # NOTE: There MUST be a community convention for this:
+  # NOTE: There MUST be a Scala community convention for this:
   - name: make sure project dependencies are present
-    file:
-      path: "{{install_path}}/project/plugins.sbt"
-      state: touch
-      mode: 0755
-
-  - lineinfile:
-      path: "{{install_path}}/project/plugins.sbt"
-      line: 'addSbtPlugin("com.typesafe.sbt" % "sbt-twirl" % "1.3.13")'
-      insertafter: EOF
-
-  - lineinfile:
-      path: "{{install_path}}/project/plugins.sbt"
-      line: 'addSbtPlugin("org.scalatra.sbt" % "sbt-scalatra" % "1.0.1")'
-      insertafter: EOF
-
-  - file:
-      path: "{{install_path}}/project/build.properties"
-      state: touch
+    template:
+      src: "{{template_path}}/plugins.sbt"
+      dest: "{{install_path}}/project/plugins.sbt"
       mode: 0755
       owner: "{{app_user}}"
       group: "{{app_user}}"
 
-  - lineinfile:
-      path: "{{install_path}}/project/build.properties"
-      line: "sbt.version = 1.1.1"
-      insertafter: EOF
-
+  - template:
+      src: "{{template_path}}/build.properties"
+      dest: "{{install_path}}/project/build.properties"
+      mode: 0755
+      owner: "{{app_user}}"
+      group: "{{app_user}}"
 
   - name: build latest docker image
     docker_image:
@@ -50,13 +37,16 @@
       name: "{{app_name}}"
 
   - template:
-      src: ../templates/reading_app.secret.env
+      src: "{{template_path}}/reading_app.secret.env"
       dest: "{{install_path}}/secrets.env"
       mode: 0400
 
   - name: stop and remove old container
     command: docker stop readingbackend
+    ignore_errors: yes
+
   - command: docker container rm readingbackend
+    ignore_errors: yes
 
   - name: start container
     docker_container:

@@ -24,10 +24,3 @@
       mode: 0755
       owner: "{{app_user}}"
       group: "{{app_user}}"
-
-  - git:
-      repo: "https://github.com/brycemcd/scalatramess.git"
-      dest: "{{install_path}}"
-    become: yes
-    become_user: "{{app_user}}"
-    become_method: sudo
