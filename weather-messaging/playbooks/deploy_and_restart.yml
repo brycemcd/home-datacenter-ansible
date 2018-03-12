@@ -1,0 +1,32 @@
+---
+- hosts: reading_backend_new
+  vars:
+    install_path: /opt/apps/weather-messaging
+    app_user: weather
+    app_name: weather-messaging
+    template_path: ../templates
+  become: yes
+  become_user: "{{app_user}}"
+  become_method: sudo
+  tasks:
+
+  - name: pull master
+    git:
+      repo: https://github.com/brycemcd/MQTT-to-Kafka.git
+      dest: "{{install_path}}"
+
+  - name: install .env so compose can pass along connection properties
+    template:
+      src: "{{template_path}}/weather.secret.env"
+      dest: "{{install_path}}/.env"
+      mode: 0700
+      owner: "{{app_user}}"
+      group: "{{app_user}}"
+
+  - name: start docker-compose
+    # http://docs.ansible.com/ansible/latest/docker_service_module.html
+    docker_service:
+      project_name: "{{app_name}}"
+      project_src: "{{install_path}}"
+      recreate: always
+

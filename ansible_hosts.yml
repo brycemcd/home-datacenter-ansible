@@ -6,3 +6,7 @@ all:
 reading_backend_new:
   hosts:
     euclid:
+
+weather-messaging:
+  hosts:
+    euclid:
