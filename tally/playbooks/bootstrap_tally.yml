@@ -1,0 +1,25 @@
+---
+- hosts: weather-messaging
+  become: yes
+  become_method: sudo
+  tasks:
+  - apt:
+       name: "{{item}}"
+       state: latest
+       update_cache: yes
+       install_recommends: yes
+    with_items:
+      - python-pip
+
+  - command: pip install docker-compose
+
+  - user:
+      name: "{{app_user}}"
+      groups: docker
+
+  - file:
+      path: "{{install_path}}"
+      state: directory
+      mode: 0755
+      owner: "{{app_user}}"
+      group: "{{app_user}}"

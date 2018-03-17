@@ -1,0 +1,22 @@
+---
+- hosts: tally
+  vars:
+    template_path: ../templates
+  become: yes
+  become_user: "{{app_user}}"
+  become_method: sudo
+  tasks:
+
+  - name: force redis to save
+    command: docker exec tallies_redis_1 redis-cli save
+    register: stdout_msg
+
+  # https://redis.io/commands/save
+  - assert:
+      that: "'{{stdout_msg.stdout}}' == 'OK'"
+
+  # NOTE: {{repo}} and {{install_path}} must be set as vars
+  - import_tasks: ../../common_tasks/git_pull_master.yml
+
+  # NOTE: {{app_name}} and {{install_path}} must be set as vars
+  - import_tasks: ../../common_tasks/restart_docker_compose.yml

@@ -10,3 +10,14 @@ reading_backend_new:
 weather-messaging:
   hosts:
     euclid:
+
+# An app to count things
+# https://github.com/brycemcd/tallies
+tally:
+  hosts:
+    euclid:
+  vars:
+    repo: https://github.com/brycemcd/tallies.git
+    install_path: /opt/apps/tally
+    app_user: tally
+    app_name: tallies

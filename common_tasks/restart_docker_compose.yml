@@ -1,0 +1,7 @@
+---
+- name: start docker-compose
+  # http://docs.ansible.com/ansible/latest/docker_service_module.html
+  docker_service:
+    project_name: "{{app_name}}"
+    project_src: "{{install_path}}"
+    recreate: always

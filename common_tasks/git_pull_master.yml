@@ -1,0 +1,5 @@
+---
+- name: pull master
+  git:
+    repo: "{{repo}}"
+    dest: "{{install_path}}"
