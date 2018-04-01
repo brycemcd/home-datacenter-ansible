@@ -5,6 +5,7 @@
     app_user: reading_backend
     app_name: readingbackend
     template_path: ../templates
+    email_parser_path: /opt/apps/reading_backend_new/src/email_link_parser
   become: yes
   become_user: "{{app_user}}"
   become_method: sudo
@@ -59,4 +60,31 @@
       env:
         SQSMessageQueueName: email-listicle-mail-messages
         DB_JDBC_URL: jdbc:postgresql://psql02.thedevranch.net/reading
-        DB_USERNAME: brycemcd
+
+  # Now for the email message parser
+  - name: stop and remove old container
+    command: docker stop email_message_parser
+    ignore_errors: yes
+
+  - command: docker container rm email_message_parser
+    ignore_errors: yes
+
+  - name: build latest docker image
+    command: docker image rm email_message_parser
+    ignore_errors: yes
+
+  #- name: build latest docker image
+    #command: "docker build --force-rm -t email_message_parser {{email_parser_path}}"
+
+  - name: build latest docker image
+    docker_image:
+      path: "{{email_parser_path}}"
+      name: email_message_parser
+
+  - name: start email_message_parser container
+    docker_container:
+      name: email_message_parser
+      image: email_message_parser
+      recreate: yes
+      restart_policy: unless-stopped
+      env_file: "{{install_path}}/secrets.env"
