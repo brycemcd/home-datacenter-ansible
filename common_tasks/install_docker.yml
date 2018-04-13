@@ -1,0 +1,30 @@
+---
+# NOTE: this was copied from my other repo. Figure out how to share this:
+# https://github.com/brycemcd/ansible-workstation/blob/master/install_docker.yml
+# NOTE: for uninstall directions: https://docs.docker.com/install/linux/docker-ce/ubuntu/#upgrade-docker-after-using-the-convenience-script
+
+- name: install gpg key from docker.io
+  apt_key:
+    id: 0EBFCD88
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+
+- apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
+    state: present
+
+- apt:
+    name: docker-ce
+    state: latest
+    update_cache: yes
+    install_recommends: yes
+
+- group:
+    name: docker
+    state: present
+
+- user:
+    name: brycemcd # NOTE: make this a variable!
+    groups:
+      - docker

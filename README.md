@@ -27,7 +27,7 @@ useradd -m brycemcd
 * Bootstrap the system by running: `ansible-playbook -i ansible_hosts bootstrap_box.yml`
 
 
-## WIP Hostnames
+## Hostnames
 
 The approach I _should_ take is to name the physical hosts something and
 then name the services as cnames to the physical hosts on which they're hosted.
