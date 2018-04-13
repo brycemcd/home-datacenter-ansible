@@ -2,6 +2,8 @@ all:
   hosts:
     euclid:
       ansible_host: 10.1.2.228
+    gauss:
+      ansible_host: 10.1.2.216
 
 reading_backend_new:
   hosts:

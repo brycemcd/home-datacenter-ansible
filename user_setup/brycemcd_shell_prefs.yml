@@ -1,0 +1,22 @@
+---
+- name: install tmux prefs
+  get_url:
+    url: https://gist.githubusercontent.com/brycemcd/c43f5a3250256cd65686/raw/.tmux.conf
+    dest: ~/.tmux.conf
+    mode: 0744
+
+- authorized_key:
+    user: brycemcd
+    key: https://github.com/brycemcd.keys
+
+- template:
+    src: "{{user_setup_path}}/brycemcd_git_setup"
+    dest: /home/brycemcd/.gitconfig
+    mode: 0664
+    owner: brycemcd
+
+- template:
+    src: "{{user_setup_path}}/brycemcd_zshrc_basic"
+    dest: /home/brycemcd/.zshrc
+    mode: 0664
+    owner: brycemcd

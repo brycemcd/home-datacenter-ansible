@@ -1,0 +1,32 @@
+---
+- hosts: all
+  user: brycemcd
+  sudo: yes
+  vars:
+    user_setup_path: user_setup
+  tasks:
+    - name: install packages
+      apt:
+        pkg: "{{item}}"
+        state: latest
+        update_cache: yes
+        install_recommends: yes
+      with_items:
+        - zsh
+        - git
+        - vim
+        - tmux
+
+    - user:
+        name: brycemcd
+        shell: /usr/bin/zsh
+
+
+
+- hosts: all
+  user: brycemcd
+  sudo: no
+  vars:
+    user_setup_path: user_setup
+  tasks:
+    - include: user_setup/brycemcd_shell_prefs.yml

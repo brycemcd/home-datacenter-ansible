@@ -9,31 +9,22 @@ cluster up to date.
 experimenting with ansible and Hadoop. This is useful as a reference
 now.
 
-## Bootstrap a Cluster
+## Bootstrap a System
 
 ### Manual Steps
 
 * Install Ubuntu 16.04 LTS (latest LTS release).
-* Make sure install has a brycemcd user
+* Make sure install has brycemcd as a sudo
+* Give brycemcd passwordless sudo:
+
+`brycemcd ALL=(ALL:ALL) NOPASSWD:ALL`
 
 ```bash
 useradd -m brycemcd
 ```
-* Install ssh public key in ~/.ssh/authorized_keys to permit
-  password-less login
+### No Mo' Manual
 
-```bash
-su brycemcd
-ssh-keygen
-cd .ssh
-curl https://github.com/brycemcd.keys -o authorized_keys
-```
-* run visudo and give the brycemcd user passwordless sudo access
-
-`brycemcd ALL=(ALL:ALL) NOPASSWD:ALL`
-
-* Add 
-* Bootstrap the system by running: `ansible-playbook -i ansible_hosts playbooks/bootstrap_box.yml`
+* Bootstrap the system by running: `ansible-playbook -i ansible_hosts bootstrap_box.yml`
 
 
 ## WIP Hostnames
@@ -57,4 +48,5 @@ http://famous-mathematicians.org/
 |spark4 (legacy)|service|nyc01|postgres service|psql02.tthedevranch.net|
 |spark3 (legacy)|service|nyc01|postgres service|psql03.tthedevranch.net|
 |lovelace|service|nyc01|redis service|redis01.tthedevranch.net|
-|euclid|host|nyc01|old laptop. i7, 8GB RAM, ~100GB SSD|euclid.thedevranch.net|
+|euclid|host|nyc01|old laptop i7, 8GB RAM, ~100GB SSD|euclid.thedevranch.net|
+|gauss|host|nyc01|old desktop i5, 16GB RAM, 500GB SSD|gauss.thedevranch.net|
