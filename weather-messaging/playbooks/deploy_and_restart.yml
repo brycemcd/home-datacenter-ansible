@@ -1,5 +1,5 @@
 ---
-- hosts: reading_backend_new
+- hosts: weather-messaging
   vars:
     install_path: /opt/apps/weather-messaging
     app_user: weather
@@ -29,4 +29,6 @@
       project_name: "{{app_name}}"
       project_src: "{{install_path}}"
       recreate: always
+      build: yes
+      state: present
 
