@@ -1,10 +1,11 @@
 ---
 # NOTE: this was helpful. I'm not sure the code in this playbook works.
 # https://linuxconfig.org/how-to-install-kubernetes-on-ubuntu-18-04-bionic-beaver-linux
-- hosts: kubernetes-nodes
+- hosts: kube-slave-nodes
   become: yes
   become_method: sudo
   tasks:
+  - include_tasks: ../common_tasks/install_docker.yml
   - apt:
        name: "{{item}}"
        state: latest
@@ -23,8 +24,10 @@
     command: apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
 
   # NOTE: until I reconfigure the memory/storage on these boxes, this will
-  # have to do. It's going to cause problems.
+  # have to do. It's going to cause problems. Manually go in and edit /etc/fstab
+  # in order to prevent swap from re-mounting on reboot.
   - command: "swapoff -a"
+
   - apt:
        name: "{{item}}"
        state: latest
@@ -35,27 +38,9 @@
       - kubeadm
       - kubectl
 
-  # NOTE: specific to master node
-  - template:
-      src: ../templates/kubeadm.conf
-      dest: /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
-      mode: 0644
-
   - command: systemctl daemon-reload
   - command: systemctl restart kubelet
 
-  # NOTE: this doesn't work because having swap memory enabled is not supported
-  # with kube yet. While I'm just trying this out, I'll sudo swapoff -a and
-  # run this command manually
-  #- command: kubeadm init --pod-network-cidr=10.96.0.1/23 --service-cidr 10.200.0.0/27
-
-- hosts: all
-  user: brycemcd
-  sudo: no
-  vars:
-    user_setup_path: user_setup
-  tasks:
-    - file:
-      path: /home/brycemcd/.kube
-      state: directory
-      mode: 0755
+  # NOTE: This is a manual step that needs to take place at the end. I haven't
+  # figured out how to automate this yet.
+  #  kubeadm join 10.1.2.216:6443 --token [token-value] --discovery-token-ca-cert-hash sha256:[a-hash]
