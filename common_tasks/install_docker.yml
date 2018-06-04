@@ -11,11 +11,11 @@
 
 
 - apt_repository:
-    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable
     state: present
 
 - apt:
-    name: docker-ce
+    name: docker.io
     state: latest
     update_cache: yes
     install_recommends: yes

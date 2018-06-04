@@ -1,0 +1,60 @@
+---
+# NOTE: this was helpful. I'm not sure the code in this playbook works.
+# https://linuxconfig.org/how-to-install-kubernetes-on-ubuntu-18-04-bionic-beaver-linux
+- hosts: kubernetes-nodes
+  become: yes
+  become_method: sudo
+  tasks:
+  - apt:
+       name: "{{item}}"
+       state: latest
+       update_cache: yes
+       install_recommends: yes
+    with_items:
+      - apt-transport-https
+      - curl
+
+  - apt_key:
+      url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+      state: present
+
+  - apt_repository:
+      repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
+      state: present
+
+  # NOTE: until I reconfigure the memory/storage on these boxes, this will
+  # have to do. It's going to cause problems.
+  - command: "swapoff -a"
+  - apt:
+       name: "{{item}}"
+       state: latest
+       update_cache: yes
+       install_recommends: yes
+    with_items:
+      - kubelet
+      - kubeadm
+      - kubectl
+
+  - template:
+      src: ../templates/kubeadm.conf
+      dest: /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+      mode: 0644
+
+  - command: systemctl daemon-reload
+  - command: systemctl restart kubelet
+
+  # NOTE: this doesn't work because having swap memory enabled is not supported
+  # with kube yet. While I'm just trying this out, I'll sudo swapoff -a and
+  # run this command manually
+  #- command: kubeadm init --pod-network-cidr=10.96.0.1/23 --service-cidr 10.200.0.0/27
+
+- hosts: all
+  user: brycemcd
+  sudo: no
+  vars:
+    user_setup_path: user_setup
+  tasks:
+    - file:
+      path: /home/brycemcd/.kube
+      state: directory
+      mode: 0755

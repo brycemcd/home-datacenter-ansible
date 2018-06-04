@@ -4,6 +4,11 @@ all:
       ansible_host: 10.1.2.228
     gauss:
       ansible_host: 10.1.2.216
+    hopper:
+      ansible_host: 10.1.2.208
+    leibniz:
+      ansible_host: 10.1.2.207
+
 
 reading_backend_new:
   hosts:
@@ -24,3 +29,8 @@ tally:
     install_path: /opt/apps/tally
     app_user: tally
     app_name: tallies
+
+kubernetes-nodes:
+  hosts:
+    gauss:
+    hopper:

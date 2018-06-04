@@ -40,13 +40,14 @@ http://famous-mathematicians.org/
 |----|---------------|--------|-----------|-----|
 |lovelace|host|nyc01|red gigabyte brick, AMD proc, 8GB RAM, 120GB SSD|lovelace.thedevranch.net|
 |turing|host|beav01|red gigabyte brick, AMD proc, 8GB RAM, 120GB SSD |turing.thedevranch.net|
+|hopper|host|nyc01|old i7 box, 32GB RAM, 1TB slowest rusty platter drive ever|hopper.thedevranch.net|
+|leibniz|host|nyc01|celeron, 8GB Ram, 128 GB SSD |leibniz.thedevranch.net|
 |pascal|host|canada hosted|Cloud at Cost: a cheap public IP address with a shoddy service|pascal.thedevranch.net|
 |lovelace|service|nyc01|Elasticsearch|es01.thedevranch.net|
 |spark4 (legacy - needs update!)|service|nyc01|Mosquitto|mqtt01.thedevranch.net mqtt02.thedevranch.net|
 |turing|service|beav01|Elasticsearch|es02.thedevranch.net|
 |lovelace|service|nyc01|postgres service|psql01.tthedevranch.net|
 |spark4 (legacy)|service|nyc01|postgres service|psql02.tthedevranch.net|
-|spark3 (legacy)|service|nyc01|postgres service|psql03.tthedevranch.net|
 |lovelace|service|nyc01|redis service|redis01.tthedevranch.net|
 |euclid|host|nyc01|old laptop i7, 8GB RAM, ~100GB SSD|euclid.thedevranch.net|
 |gauss|host|nyc01|old desktop i5, 16GB RAM, 500GB SSD|gauss.thedevranch.net|
