@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: kafka
   user: brycemcd
   sudo: yes
   vars:
@@ -7,21 +7,16 @@
   tasks:
     - name: install packages
       apt:
-        pkg: "{{item}}"
+        pkg: ['zsh', 'git', 'vim', 'tmux']
         state: latest
         update_cache: yes
         install_recommends: yes
-      with_items:
-        - zsh
-        - git
-        - vim
-        - tmux
 
     - user:
         name: brycemcd
         shell: /usr/bin/zsh
 
-    - include_tasks: common_tasks/install_docker.yml
+    #- include_tasks: common_tasks/install_docker.yml
 
 
 - hosts: all

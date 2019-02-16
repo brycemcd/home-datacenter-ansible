@@ -7,8 +7,21 @@ all:
     hopper:
       ansible_host: 10.1.2.208
     leibniz:
-      ansible_host: 10.1.2.207
+      ansible_host: 10.1.5.207
+    johnson:
+      ansible_host: 10.1.2.244
+    spark4:
+      ansible_host: 10.1.2.230
 
+
+kafka:
+  hosts:
+    johnson:
+      advertised_host_name: 10.1.2.244
+    spark4:
+      advertised_host_name: 10.1.2.230
+    leibniz:
+      advertised_host_name: 10.1.5.207
 
 reading_backend_new:
   hosts:

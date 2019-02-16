@@ -1,0 +1,11 @@
+---
+- hosts: kafka
+  become: yes
+  become_method: sudo
+  vars:
+    zookeeper_seed_master: 10.1.2.244
+  tasks:
+    - name: start kafka and zookeeper
+      command: docker-compose up -d
+      args:
+        chdir: /opt/kafka
